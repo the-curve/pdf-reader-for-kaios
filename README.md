@@ -6,6 +6,7 @@ A PDF Reader or manager (or what you say) made for small screens...
 3 - Zoom in <br>
 2 - Previous page <br>
 8 - Next page <br>
+5 - Rotate screen
 * - Invert pdf colour (also called dark theme) <br>
 # - Goto a random page number
 
