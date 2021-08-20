@@ -1,0 +1,119 @@
+html,
+body {
+    margin: auto;
+    width: 100%;
+    background-color: #dadada;
+}
+
+#easy-read {
+    text-align: center;
+    letter-spacing: 0.01em;
+    background-color: #222;
+    color: #c5c5c5;
+    filter: sepia(20%)
+}
+
+#canvas {
+    display: block;
+    margin: auto;
+    padding: 0;
+    height: 100%;
+}
+
+#loader {
+    overflow: hidden;
+    border: 5px solid #bfc0c0;
+    border-radius: 50%;
+    border-top: 5px solid #4f5d75;
+    width: 50px;
+    height: 50px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 1s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#set2 {
+    margin: 0;
+    padding-left: 37%;
+    padding-top: 50%;
+}
+
+#password-container {
+    padding: 50px 0;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#pdf-password {
+    border: 1px solid #aaa;
+    background-color: #e8e8e4;
+    padding: 5px;
+    width: 180px;
+    height: 25px;
+    font-size: 16px;
+}
+
+#password-message {
+    text-align: center;
+    color: #d62828;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+p {
+    color: #293241;
+    letter-spacing: 0.01em;
+    font-size: 16px;
+}
+
+#softkeys {
+    overflow: hidden;
+    vertical-align: middle;
+    background-color: #111;
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    height: 25px;
+    bottom: 0;
+}
+
+#softkeys>* {
+    display: inline-block;
+    padding-left: 5px;
+    width: 69px;
+}
+
+#softkey-left,
+#softkey-right {
+    font-weight: 400;
+    font-size: 14px;
+    padding-top: 5px;
+}
+
+#softkey-right {
+    text-align: end;
+}
+
+#softkey-center {
+    padding-top: 3px;
+    font-weight: 600;
+    font-size: 19px;
+    text-align: center;
+}

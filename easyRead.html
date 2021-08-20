@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The easy read PDF you opened</title>
+
+    <link rel="stylesheet" href="/css/pdfDoc.css">
+    <script src="/lib/pdf.js"></script>
+</head>
+
+<body>
+    <div id="body">
+
+        <div id="set2">
+            <div id="loader"></div>
+        </div>
+
+        <div id="password-container">
+            <p>This PDF is protected<br/>Please enter Password</p>
+            <input type="password" id="pdf-password" autocomplete="off" placeholder="Password">
+            <div id="password-message"></div>
+        </div>
+
+        <div id="easy-read">
+
+        </div>
+
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div id="softkeys">
+        <div id="softkey-left"></div>
+        <div id="softkey-center"></div>
+        <div id="softkey-right"></div>
+    </div>
+</body>
+
+<script src="/js/easyRead.js"></script>
+
+</html>

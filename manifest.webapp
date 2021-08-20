@@ -1,0 +1,32 @@
+{
+    "version": "3.0",
+    "name": "PDF Reader",
+    "description": "A beautiful PDF reader",
+    "launch_path": "/index.html",
+    "icons": {
+        "56": "/icons/56x56.png",
+        "112": "/icons/112x112.png"
+    },
+
+    "developer": {
+        "name": "Curve",
+        "url": "http://myhost.xyz"
+    },
+
+    "type": "certified",
+    "origin": "app://pdfreader.me",
+    "fullscreen": "true",
+
+    "permissions": {
+        "device-storage:sdcard": {
+            "access": "readwrite"
+        }
+    },
+
+    "locales": {},
+    "default_locale": "en",
+
+    "activities": {
+
+    }
+}
