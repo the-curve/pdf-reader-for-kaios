@@ -8,9 +8,6 @@ body {
 #easy-read {
     text-align: center;
     letter-spacing: 0.01em;
-    background-color: #222;
-    color: #c5c5c5;
-    filter: sepia(20%)
 }
 
 #canvas {

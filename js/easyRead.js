@@ -73,7 +73,7 @@ function getPDF(password, filePath) {
                 totalPages = pdfDoc.numPages;
                 console.log("Total pages: " + totalPages);
 
-                getTextForFirstTime(pageNum);
+                renderPage(pageNum);
             }).catch(function(error) {
                 console.log(error.name);
                 document.getElementById("set2").style.display = "none";
@@ -113,14 +113,16 @@ var initialScale;
  * @param num Page number.
  */
 
-function getTextForFirstTime(num) {
+function renderPage(num) {
+    if (easyRead.hasChildNodes) {
+        removeAllChildNodes(easyRead);
+    }
     pageRendering = true;
     pdfDoc.getPage(num).then(function(page) {
         var unscaledViewport = page.getViewport({ scale: 1 });
         // A big formula...
         scale = Math.min((window.screen.height / unscaledViewport.height) + adjustment, (window.screen.width / unscaledViewport.width) + adjustment); // It means to fit text content on screen
         initialScale = scale;
-        console.log("Changed scale: " + scale);
         var viewport = page.getViewport({ scale: scale });
 
         // Get text from pdf 
@@ -169,9 +171,6 @@ function getTextForFirstTime(num) {
 
                 easyRead.appendChild(item);
                 easyRead.appendChild(br);
-
-                ctx.font = "bold 16px Noto Sans";
-                ctx.fillText(pageNum + '/' + totalPages, 10, 20);
             })
         }).catch(function(error) {
             if (error.name == "RenderingCancelledException") {
@@ -183,68 +182,10 @@ function getTextForFirstTime(num) {
     })
 }
 
-function renderPage(num) {
-    pageRendering = true;
-
-    pdfDoc.getPage(num).then(function(page) {
-        var viewport = page.getViewport({ scale: scale });
-
-        // Get text from pdf 
-        page.getTextContent().then(function(text) {
-            console.log("Getting text of page: " + num);
-            canvas.style.display = "none"; // Hide canvas if displaying text
-
-            text.items.forEach(function(textItem) {
-                var tx = pdfjsLib.Util.transform(
-                    pdfjsLib.Util.transform(viewport.transform, textItem.transform), [1, 0, 0, -1, 0, 0]
-                );
-                var style = text.styles[textItem.fontName];
-
-                // adjust for font ascent/descent
-                var fontSize = Math.sqrt((tx[2] * tx[2]) + (tx[3] * tx[3]));
-
-                if (style.ascent) {
-                    tx[5] -= fontSize * style.ascent;
-                } else if (style.descent) {
-                    tx[5] -= fontSize * (1 + style.descent);
-                } else {
-                    tx[5] -= fontSize / 2;
-                }
-
-                // adjust for rendered width
-                if (textItem.width > 0) {
-                    ctx.font = tx[0] + 'px ' + style.fontFamily;
-
-                    var width = ctx.measureText(textItem.str).width;
-
-                    if (width > 0) {
-                        //tx[0] *= (textItem.width * viewport.scale) / width;
-                        tx[0] = (textItem.width * viewport.scale) / width;
-                    }
-                }
-
-                var item = document.createElement("span");
-                var br = document.createElement("br");
-                item.textContent = textItem.str;
-                item.style.fontFamily = style.fontFamily;
-                item.style.fontSize = fontSize + 10 + 'px';
-                item.style.transform = 'scaleX(' + tx[0] + ')';
-                item.style.left = tx[4] + 'px';
-                item.style.top = tx[5] + 'px';
-                item.style.fontWeight = "300";
-
-                if (easyReadHasChildElements) {
-                    // Remove previous child elements(all of them!!!)
-                }
-
-                easyRead.appendChild(item);
-                easyRead.appendChild(br);
-
-                ctx.font = "bold 16px Noto Sans";
-                ctx.fillText(pageNum + '/' + totalPages, 10, 20);
-            })
-        })
-    });
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
 }
 
 /**
