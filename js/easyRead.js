@@ -370,11 +370,11 @@ document.addEventListener('keydown', (event) => {
     if (keyName == "*") {
         console.log(count)
         if (count == 0) {
-            document.body.style.filter = "invert(100%) sepia(20%) brightness(0.5)"
+            document.body.style.filter = "invert(100%) sepia(20%)"
             console.log("invert")
             count++;
         } else {
-            document.body.style.filter = "invert(0) sepia(0) brightness(1)"
+            document.body.style.filter = "invert(0) sepia(0)"
             console.log("reinvert")
             count--;
         }
