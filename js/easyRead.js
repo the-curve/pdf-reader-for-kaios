@@ -73,7 +73,7 @@ function getPDF(password, filePath) {
                 totalPages = pdfDoc.numPages;
                 console.log("Total pages: " + totalPages);
 
-                renderPage(pageNum);
+                renderFirstPage(pageNum);
             }).catch(function(error) {
                 console.log(error.name);
                 document.getElementById("set2").style.display = "none";
@@ -113,7 +113,7 @@ var initialScale;
  * @param num Page number.
  */
 
-function renderPage(num) {
+function renderFirstPage(num) {
     if (easyRead.hasChildNodes) {
         removeAllChildNodes(easyRead);
     }
@@ -125,6 +125,70 @@ function renderPage(num) {
         initialScale = scale;
         var viewport = page.getViewport({ scale: scale });
 
+        // Get text from pdf 
+        page.getTextContent().then(function(text) {
+            console.log("Getting text of page: " + num);
+            canvas.style.display = "none"; // Hide canvas if displaying text
+
+            text.items.forEach(function(textItem) {
+                var tx = pdfjsLib.Util.transform(
+                    pdfjsLib.Util.transform(viewport.transform, textItem.transform), [1, 0, 0, -1, 0, 0]
+                );
+                var style = text.styles[textItem.fontName];
+
+                // adjust for font ascent/descent
+                var fontSize = Math.sqrt((tx[2] * tx[2]) + (tx[3] * tx[3]));
+
+                if (style.ascent) {
+                    tx[5] -= fontSize * style.ascent;
+                } else if (style.descent) {
+                    tx[5] -= fontSize * (1 + style.descent);
+                } else {
+                    tx[5] -= fontSize / 2;
+                }
+
+                // adjust for rendered width
+                if (textItem.width > 0) {
+                    ctx.font = tx[0] + 'px ' + style.fontFamily;
+
+                    var width = ctx.measureText(textItem.str).width;
+
+                    if (width > 0) {
+                        //tx[0] *= (textItem.width * viewport.scale) / width;
+                        tx[0] = (textItem.width * viewport.scale) / width;
+                    }
+                }
+
+                var item = document.createElement("span");
+                var br = document.createElement("br");
+                item.textContent = textItem.str;
+                item.style.fontFamily = style.fontFamily;
+                item.style.fontSize = fontSize + 10 + 'px';
+                item.style.transform = 'scaleX(' + tx[0] + ')';
+                item.style.left = tx[4] + 'px';
+                item.style.top = tx[5] + 'px';
+                item.style.fontWeight = "300";
+
+                easyRead.appendChild(item);
+                easyRead.appendChild(br);
+            })
+        }).catch(function(error) {
+            if (error.name == "RenderingCancelledException") {
+                console.log("Previous rendering task cancelled!")
+            } else {
+                console.log(error);
+            }
+        });
+    })
+}
+
+function renderPage(num) {
+    //remove everything before displaying another page
+    if (easyRead.hasChildNodes) {
+        removeAllChildNodes(easyRead);
+    }
+    pageRendering = true;
+    pdfDoc.getPage(num).then(function(page) {
         // Get text from pdf 
         page.getTextContent().then(function(text) {
             console.log("Getting text of page: " + num);
