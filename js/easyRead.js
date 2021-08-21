@@ -189,6 +189,7 @@ function renderPage(num) {
     }
     pageRendering = true;
     pdfDoc.getPage(num).then(function(page) {
+        var viewport = page.getViewport({ scale: scale });
         // Get text from pdf 
         page.getTextContent().then(function(text) {
             console.log("Getting text of page: " + num);
