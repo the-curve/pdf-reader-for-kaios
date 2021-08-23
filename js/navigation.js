@@ -185,6 +185,28 @@ function renameDoc() {
 
 function deleteDoc() {
     console.log("Deleting...");
+    path = "";
+    for (let i = 0; i < list.children.length; i++) {
+        if (list.children[i].classList.contains("active")) {
+            path = list.children[i].getAttribute("path");
+        }
+    }
+    var sdcard = navigator.getDeviceStorage('sdcard');
+
+    var confirmation = confirm("Delete file?");
+
+    if (confirmation) {
+        var request = sdcard.delete(path);
+
+        request.onsuccess = function() {
+            window.location.reload();
+        }
+
+        request.onerror = function() {
+            console.log(this.error);
+            alert("Unable to delete the file");
+        }
+    }
 }
 
 function getInfoDoc() {
