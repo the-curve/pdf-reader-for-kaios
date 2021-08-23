@@ -4,6 +4,15 @@ body {
     background-color: #fafafa;
 }
 
+#infoHead {
+    background-color: #14213d;
+    color: #fafafa;
+    height: 25px;
+    font-size: 18px;
+    padding-top: 3px;
+    text-align: center;
+}
+
 #options {
     width: 100%;
     bottom: 0;

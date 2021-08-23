@@ -57,20 +57,32 @@ document.onkeydown = function(evt) {
 var nav = 1;
 var scroll = 0;
 var op = 1
+maxOp = 4
 
 function arrowDown(event) {
     event.preventDefault();
     const searchBox = document.getElementById("searchBox");
 
     if (document.getElementById("options").style.display == "") {
-        if (op == 4) {
-            //Do nothing
+        if (op == maxOp) {
+            removeActive("op" + op);
+            op = 1;
+            makeActive("op" + op);
         } else if (isActive("op" + op)) {
             removeActive("op" + op);
             makeActive("op" + (op + 1));
             op++;
         }
 
+    } else if (nav == no_of_divs) {
+        scroll = window.pageYOffset + 66;
+        window.scrollTo(0, scroll);
+
+        removeActive(nav)
+        nav = 1;
+        makeActive("nav");
+        searchBox.focus();
+        window.scrollTo(0, 0);
     } else if (searchBox.matches(":focus")) {
         searchBox.blur();
         removeActive("nav");
@@ -83,14 +95,6 @@ function arrowDown(event) {
         nav++;
 
         if (nav > 3) {
-            scroll = window.pageYOffset + 66;
-            window.scrollTo(0, scroll);
-        }
-
-        //if nav is on end of life
-        if (nav == no_of_divs) {
-            nav = 0;
-
             scroll = window.pageYOffset + 66;
             window.scrollTo(0, scroll);
         }
@@ -108,15 +112,21 @@ function arrowUp(event) {
 
     if (document.getElementById("options").style.display == "") {
         if (op == 1) {
-            //Do nothing
+            removeActive("op" + op);
+            op = maxOp;
+            makeActive("op" + op);
         } else if (isActive("op" + op)) {
             removeActive("op" + op);
             makeActive("op" + (op - 1));
             op--;
         }
 
-    } else if (nav == 0 && !searchBox.matches(":focus")) {
+    } else if (isActive("nav")) {
         nav = no_of_divs;
+        removeActive("nav");
+        searchBox.blur();
+        makeActive(nav);
+        window.scrollTo(0, document.body.scrollHeight);
     } else if (nav == 1 && !searchBox.matches(":focus")) {
         document.getElementById("softkey-center").innerHTML = '';
         document.getElementById("softkey-right").innerHTML = '';
@@ -165,10 +175,14 @@ function enterKey() {
         }
     }
 }
-
+/**
+ * Rename here it means making new file
+ * with previous file content
+ * and delete previous file
+ */
 function renameDoc() {
     console.log("Renaming...");
-    path = "";
+    var path = "";
     for (let i = 0; i < list.children.length; i++) {
         if (list.children[i].classList.contains("active")) {
             path = list.children[i].getAttribute("path");
@@ -204,10 +218,10 @@ function renameDoc() {
         }
     }
 }
-
+// Delete file
 function deleteDoc() {
     console.log("Deleting...");
-    path = "";
+    var path = "";
     for (let i = 0; i < list.children.length; i++) {
         if (list.children[i].classList.contains("active")) {
             path = list.children[i].getAttribute("path");
@@ -233,6 +247,17 @@ function deleteDoc() {
 
 function getInfoDoc() {
     console.log("Getting Info...");
+    var path = "",
+        size = "",
+        lastModified = "";
+
+    for (let i = 0; i < list.children.length; i++) {
+        if (list.children[i].classList.contains("active")) {
+            path = list.children[i].getAttribute("path");
+        }
+    }
+    var url = "getInfo.html?path=" + path;
+    document.location.href = url;
 }
 
 function shareDoc() {
