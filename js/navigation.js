@@ -174,12 +174,34 @@ function renameDoc() {
             path = list.children[i].getAttribute("path");
         }
     }
-    var l = path.lastIndexOf("/");
-    var name = path.slice(l + 1);
 
     var newName = prompt("Enter new name");
     if (newName) {
-        console.log("Changing name from " + name + " to " + newName);
+        var sdcard = navigator.getDeviceStorage('sdcard');
+        var request = sdcard.getEditable(path);
+
+        request.onsuccess = function() {
+            var fileReader = new FileReader();
+
+            fileReader.onload = function() {
+                var typedarray = new Uint8Array(this.result);
+                var blob = new Blob([typedarray], { "type": "application/pdf" });
+
+                var reqChange = sdcard.addNamed(blob, (newName + ".pdf"));
+
+                reqChange.onsuccess = function() {
+                    var reqDel = sdcard.delete(path);
+                    reqDel.onsuccess = function() {
+                        window.location.reload();
+                    }
+                }
+                reqChange.onerror = function() {
+                    console.log(this.error);
+                    alert("Cannot rename file")
+                }
+            }
+            fileReader.readAsArrayBuffer(this.result);
+        }
     }
 }
 
