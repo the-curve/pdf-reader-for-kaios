@@ -1,7 +1,7 @@
 window.addEventListener("load", function() {
     document.getElementById("softkey-left").innerHTML = 'Dark-Mode';
     document.getElementById("softkey-center").innerHTML = '';
-    document.getElementById("softkey-right").innerHTML = 'Options';
+    document.getElementById("softkey-right").innerHTML = '';
 });
 
 var screenMode;

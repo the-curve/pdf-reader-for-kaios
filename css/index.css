@@ -4,6 +4,45 @@ body {
     background-color: #fafafa;
 }
 
+#options {
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+}
+
+#optionsHead {
+    background-color: #d6d6d6;
+    color: #222;
+    height: 25px;
+    font-size: 18px;
+    padding-top: 3px;
+    text-align: center;
+}
+
+#optionsList {
+    background-color: #fafafa;
+    z-index: 10000;
+    font-family: Noto Sans;
+    display: block;
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    padding-bottom: 30px;
+}
+
+#optionsList div {
+    height: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+}
+
+#optionsList .active {
+    background-color: #4f5d75;
+    color: #fff;
+}
+
 #nav {
     background-color: #fafafa;
     position: fixed;
