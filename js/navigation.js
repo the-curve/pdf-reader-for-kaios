@@ -1,4 +1,4 @@
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
     document.getElementById("options").style.display = "none";
     var list = document.getElementById("list");
     document.getElementById("searchBox").focus();
@@ -12,8 +12,7 @@ function makeActive(e) {
 
 function isActive(e) {
     var element = document.getElementById(e)
-    if (element == null) {
-        // Do nothing!!!
+    if (element == null) { // Do nothing!!!
     } else if (element.classList.contains("active")) {
         return true;
     } else {
@@ -28,28 +27,21 @@ function removeActive(e) {
     }
 }
 
-document.onkeydown = function(evt) {
+document.onkeydown = function (evt) {
     switch (evt.key) {
-        case "Enter":
-            enterKey();
+        case "Enter": enterKey();
             break;
-        case "5":
-            easyRead();
+        case "5": easyRead();
             break;
-        case "ArrowDown":
-            arrowDown(evt);
+        case "ArrowDown": arrowDown(evt);
             break;
-        case "ArrowUp":
-            arrowUp(evt);
+        case "ArrowUp": arrowUp(evt);
             break;
-        case "SoftLeft":
-            SoftLeft();
+        case "SoftLeft": SoftLeft();
             break;
-        case "SoftRight":
-            SoftRight();
+        case "SoftRight": SoftRight();
             break;
-        case "Backspace":
-            Backspace(evt);
+        case "Backspace": Backspace(evt);
             break;
     }
 }
@@ -70,7 +62,9 @@ function arrowDown(event) {
             makeActive("op" + op);
         } else if (isActive("op" + op)) {
             removeActive("op" + op);
-            makeActive("op" + (op + 1));
+            makeActive("op" + (
+                op + 1
+            ));
             op++;
         }
 
@@ -116,7 +110,9 @@ function arrowUp(event) {
             makeActive("op" + op);
         } else if (isActive("op" + op)) {
             removeActive("op" + op);
-            makeActive("op" + (op - 1));
+            makeActive("op" + (
+                op - 1
+            ));
             op--;
         }
 
@@ -129,7 +125,7 @@ function arrowUp(event) {
 
         document.getElementById("softkey-center").innerHTML = 'OPEN';
         document.getElementById("softkey-right").innerHTML = 'Options';
-    } else if (nav == 1 && !searchBox.matches(":focus")) {
+    } else if (nav == 1 && ! searchBox.matches(":focus")) {
         document.getElementById("softkey-center").innerHTML = '';
         document.getElementById("softkey-right").innerHTML = '';
 
@@ -162,17 +158,13 @@ function enterKey() {
         }
     } else {
         switch (op) {
-            case 1:
-                renameDoc();
+            case 1: renameDoc();
                 break;
-            case 2:
-                deleteDoc();
+            case 2: deleteDoc();
                 break;
-            case 3:
-                getInfoDoc();
+            case 3: getInfoDoc();
                 break;
-            case 4:
-                shareDoc();
+            case 4: shareDoc();
                 break;
         }
     }
@@ -196,22 +188,22 @@ function renameDoc() {
         var sdcard = navigator.getDeviceStorage('sdcard');
         var request = sdcard.getEditable(path);
 
-        request.onsuccess = function() {
+        request.onsuccess = function () {
             var fileReader = new FileReader();
 
-            fileReader.onload = function() {
+            fileReader.onload = function () {
                 var typedarray = new Uint8Array(this.result);
-                var blob = new Blob([typedarray], { "type": "application/pdf" });
+                var blob = new Blob([typedarray], {"type": "application/pdf"});
 
                 var reqChange = sdcard.addNamed(blob, (newName + ".pdf"));
 
-                reqChange.onsuccess = function() {
+                reqChange.onsuccess = function () {
                     var reqDel = sdcard.delete(path);
-                    reqDel.onsuccess = function() {
+                    reqDel.onsuccess = function () {
                         window.location.reload();
                     }
                 }
-                reqChange.onerror = function() {
+                reqChange.onerror = function () {
                     console.log(this.error);
                     alert("Cannot rename file")
                 }
@@ -236,11 +228,11 @@ function deleteDoc() {
     if (confirmation) {
         var request = sdcard.delete(path);
 
-        request.onsuccess = function() {
+        request.onsuccess = function () {
             window.location.reload();
         }
 
-        request.onerror = function() {
+        request.onerror = function () {
             console.log(this.error);
             alert("Unable to delete the file");
         }
@@ -262,7 +254,26 @@ function getInfoDoc() {
 
 function shareDoc() {
     console.log("Sharing...");
-    alert("Upcomming!!!");
+    var path = "";
+
+    for (let i = 0; i < list.children.length; i++) {
+        if (list.children[i].classList.contains("active")) {
+            path = list.children[i].getAttribute("path");
+        }
+    }
+
+    var sdcard = navigator.getDeviceStorage('sdcard');
+    var request = sdcard.getEditable(path);
+
+    request.onsuccess = function () {
+        var fileReader = new FileReader();
+
+        fileReader.onload = function () {
+            var typedarray = new Uint8Array(this.result);
+            var blob = new Blob([typedarray], {"type": "application/pdf"});
+        }
+        fileReader.readAsArrayBuffer(this.result);
+    }
 }
 
 function easyRead() {
@@ -280,14 +291,12 @@ function easyRead() {
     }
 }
 
-function SoftLeft() {
-    // Change the theme...
+function SoftLeft() { // Change the theme...
 }
 
 var countRight = 0;
 
-function SoftRight() {
-    // Open options menu with (Rename, delete and path)
+function SoftRight() { // Open options menu with (Rename, delete and path)
     if (!document.getElementById("searchBox").matches(":focus")) {
         const options = document.getElementById("options");
         if (options.style.display == "") {

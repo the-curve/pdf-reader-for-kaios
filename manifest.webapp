@@ -20,7 +20,8 @@
     "permissions": {
         "device-storage:sdcard": {
             "access": "readwrite"
-        }
+        },
+        "sms":{}
     },
 
     "locales": {},
