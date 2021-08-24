@@ -75,14 +75,13 @@ function arrowDown(event) {
         }
 
     } else if (nav == no_of_divs) {
-        scroll = window.pageYOffset + 66;
-        window.scrollTo(0, scroll);
-
         removeActive(nav)
         nav = 1;
         makeActive("nav");
         searchBox.focus();
         window.scrollTo(0, 0);
+        document.getElementById("softkey-center").innerHTML = '';
+        document.getElementById("softkey-right").innerHTML = '';
     } else if (searchBox.matches(":focus")) {
         searchBox.blur();
         removeActive("nav");
@@ -95,7 +94,7 @@ function arrowDown(event) {
         nav++;
 
         if (nav > 3) {
-            scroll = window.pageYOffset + 66;
+            scroll = window.pageYOffset + 65;
             window.scrollTo(0, scroll);
         }
 
@@ -127,6 +126,9 @@ function arrowUp(event) {
         searchBox.blur();
         makeActive(nav);
         window.scrollTo(0, document.body.scrollHeight);
+
+        document.getElementById("softkey-center").innerHTML = 'OPEN';
+        document.getElementById("softkey-right").innerHTML = 'Options';
     } else if (nav == 1 && !searchBox.matches(":focus")) {
         document.getElementById("softkey-center").innerHTML = '';
         document.getElementById("softkey-right").innerHTML = '';
@@ -140,7 +142,7 @@ function arrowUp(event) {
         nav--
 
         if (nav <= no_of_divs - 3) {
-            scroll = window.pageYOffset - 66;
+            scroll = window.pageYOffset - 65;
             window.scrollTo(0, scroll);
         }
     }
@@ -247,9 +249,7 @@ function deleteDoc() {
 
 function getInfoDoc() {
     console.log("Getting Info...");
-    var path = "",
-        size = "",
-        lastModified = "";
+    var path = "";
 
     for (let i = 0; i < list.children.length; i++) {
         if (list.children[i].classList.contains("active")) {

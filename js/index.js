@@ -34,8 +34,6 @@ function searchFiles() {
                     var div = document.createElement("div");
                     div.setAttribute("path", files.name);
                     div.setAttribute("id", count);
-                    div.setAttribute("size", files.size);
-                    div.setAttribute("lastModified", files.lastModifiedDate);
                     count++;
 
                     //slice it to get only file name
