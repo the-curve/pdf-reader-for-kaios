@@ -1,6 +1,16 @@
 # pdf-reader-for-kaios
 A PDF Reader or manager (or what you say) made for small screens...
 
+
+![image](/assets/index.png)
+![image](/assets/index2.png)<br>
+### Open as Normal PDF<br>
+![image](/assets/pdf.png)
+![image](/assets/pdf_dark.png)<br>
+### Open For Easy reading<br>
+![image](/assets/easy.png)
+![image](/assets/easy_dark.png)
+
 ## Navigation
 <ul>
 1 - Zoom out <br>
