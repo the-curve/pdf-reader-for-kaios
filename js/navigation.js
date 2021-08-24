@@ -262,6 +262,7 @@ function getInfoDoc() {
 
 function shareDoc() {
     console.log("Sharing...");
+    alert("Upcomming!!!");
 }
 
 function easyRead() {
