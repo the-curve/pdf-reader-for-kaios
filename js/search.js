@@ -10,35 +10,38 @@ document.addEventListener('keydown', (event) => {
                 }
             }
             break;
-
-        default:
+        case "SoftRight":
+            if (searchBox.matches(":focus")) {
+                searchBox.value = "";
+                searchIt("");
+                document.getElementById("softkey-right").innerHTML = '';
+            }
             break;
     }
 })
 
-function searchIt(word) {
-    var input,
-        filter,
-        list,
-        div,
-        td,
-        i,
-        txtValue;
-    //input = document.getElementById("myInput");
-    filter = word.toUpperCase();
-    list = document.getElementById("list");
-    div = list.getElementsByTagName("div");
+var index = [];
+function searchIt(input) {
+    index = [];
+    document.getElementById("softkey-right").innerHTML = 'Clear';
+    var filter = input.toUpperCase();
+    var list = document.getElementById("list");
+    var div = list.getElementsByTagName("div");
+    var hr = list.getElementsByTagName("hr");
 
-    for (i = 0; i < div.length; i++) {
-        //td = div[i].getElementsByTagName("td")[0];
-        if (div) {
-            txtValue = div.innerHTML;
-            console.log(txtValue, div.textContent);
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              div[i].style.display = "";
-            } else {
-              div[i].style.display = "none";
-            }
+    console.log("--------Found Items----------")
+    for (var i = 0; i < div.length; i++) {
+        var textVal = div[i].textContent;
+
+        div[i].style.display = "none";
+        hr[i].style.display = "none";
+
+        if (textVal.toUpperCase().indexOf(filter) > -1) {
+            div[i].style.display = "";
+            hr[i].style.display = "";
+            index.push(i);
+            console.log(div[i].innerHTML)
         }
     }
+    console.log(index)
 }
