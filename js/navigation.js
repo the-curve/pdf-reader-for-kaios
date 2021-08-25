@@ -74,7 +74,7 @@ function arrowDown(event) {
         makeActive("nav");
         searchBox.focus();
         window.scrollTo(0, 0);
-        document.getElementById("softkey-center").innerHTML = '';
+        document.getElementById("softkey-center").innerHTML = 'SEARCH';
         document.getElementById("softkey-right").innerHTML = '';
     } else if (searchBox.matches(":focus")) {
         searchBox.blur();
@@ -126,7 +126,7 @@ function arrowUp(event) {
         document.getElementById("softkey-center").innerHTML = 'OPEN';
         document.getElementById("softkey-right").innerHTML = 'Options';
     } else if (nav == 1 && ! searchBox.matches(":focus")) {
-        document.getElementById("softkey-center").innerHTML = '';
+        document.getElementById("softkey-center").innerHTML = 'SEARCH';
         document.getElementById("softkey-right").innerHTML = '';
 
         removeActive("1");
