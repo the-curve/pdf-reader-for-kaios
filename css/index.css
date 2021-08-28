@@ -1,7 +1,7 @@
 html,
 body {
     margin: 0;
-    background-color: #fafafa;
+    background-color: #f2f2f2;
 }
 
 #infoHead {
@@ -57,7 +57,7 @@ body {
 }
 
 #optionsList {
-    background-color: #fafafa;
+    background-color: #eeeeee;
     z-index: 10000;
     font-family: Noto Sans;
     display: block;
@@ -81,7 +81,7 @@ body {
 }
 
 #nav {
-    background-color: #fafafa;
+    background-color: #f2f2f2;
     position: fixed;
     z-index: 100000;
     width: 100%;
@@ -107,19 +107,18 @@ body {
 }
 
 #main {
+    text-align: center;
     position: relative;
-    margin-left: 8px;
-    margin-right: 16px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
 #searchBox {
-    background-color: #fdfdfd;
+    background-color: #f8f8f8;
     font-size: 18px;
     height: 35px;
     padding-left: 5px;
-    width: 100%;
+    width: 90%;
 }
 
 #header {
@@ -140,7 +139,7 @@ hr {
 }
 
 .fileButton {
-    background-color: #fafafa;
+    background-color: #f2f2f2;
     font-family: Open Sans;
     display: block;
     font-size: 18px;
@@ -182,7 +181,6 @@ hr {
 #softkey-right {
     font-weight: 400;
     font-size: 14px;
-    padding-top: 5px;
 }
 
 #softkey-right {
@@ -190,6 +188,7 @@ hr {
 }
 
 #softkey-center {
+    padding-top: 3px;
     font-weight: 600;
     font-size: 17px;
     text-align: center;
