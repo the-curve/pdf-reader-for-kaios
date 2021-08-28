@@ -20,9 +20,7 @@ document.addEventListener('keydown', (event) => {
     }
 })
 
-var index = [];
 function searchIt(input) {
-    index = [];
     document.getElementById("softkey-right").innerHTML = 'Clear';
     var filter = input.toUpperCase();
     var list = document.getElementById("list");
@@ -39,9 +37,7 @@ function searchIt(input) {
         if (textVal.toUpperCase().indexOf(filter) > -1) {
             div[i].style.display = "";
             hr[i].style.display = "";
-            index.push(i);
             console.log(div[i].innerHTML)
         }
     }
-    console.log(index)
 }
