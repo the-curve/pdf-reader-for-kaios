@@ -65,7 +65,11 @@ function arrowDown(event) {
 
         window.scrollTo(0, 0);
         document.getElementById("softkey-center").innerHTML = 'SEARCH';
-        document.getElementById("softkey-right").innerHTML = '';
+        if (searching == true && searchBox.value != "") {
+            document.getElementById("softkey-right").innerHTML = 'Clear';
+        } else {
+            document.getElementById("softkey-right").innerHTML = '';
+        }
     } else {
         for (i = 0; i < div.length; i++) {
             if (div[i].classList.contains("active")) {
@@ -114,7 +118,11 @@ function arrowUp(event) {
         searchBox.focus();
 
         document.getElementById("softkey-center").innerHTML = 'SEARCH';
-        document.getElementById("softkey-right").innerHTML = '';
+        if (searching == true && searchBox.value != "") {
+            document.getElementById("softkey-right").innerHTML = 'Clear';
+        } else {
+            document.getElementById("softkey-right").innerHTML = '';
+        }
     } else {
         for (i = 0; i < div.length; i++) {
             if (div[i].classList.contains("active")) {

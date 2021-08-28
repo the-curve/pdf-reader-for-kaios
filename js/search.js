@@ -1,33 +1,29 @@
 const searchBox = document.getElementById("searchBox");
+var searching = false;
 
-document.addEventListener('keydown', (event) => {
+document.addEventListener('keypress', (event) => {
     const keyName = event.key;
-    switch (keyName) {
-        case "Enter":
-            if (searchBox.matches(":focus")) {
-                if (searchBox.value != "") {
-                    searchIt(searchBox.value);
-                }
-            }
-            break;
-        case "SoftRight":
-            if (searchBox.matches(":focus")) {
-                searchBox.value = "";
-                searchIt("");
-                document.getElementById("softkey-right").innerHTML = '';
-            }
-            break;
+    if (keyName == "Enter") {
+        if (searchBox.value != "") {
+            searchIt(searchBox.value);
+        }
+    } else if (keyName == "SoftRight") {
+        searchIt("");
+        searchBox.value = "";
+        searching = false;
+        document.getElementById("softkey-right").innerHTML = '';
     }
 })
 
 function searchIt(input) {
-    document.getElementById("softkey-right").innerHTML = 'Clear';
     var filter = input.toUpperCase();
     var list = document.getElementById("list");
     var div = list.getElementsByTagName("div");
     var hr = list.getElementsByTagName("hr");
 
-    console.log("--------Found Items----------")
+    document.getElementById("softkey-right").innerHTML = 'Clear';
+    searching = true;
+
     for (var i = 0; i < div.length; i++) {
         var textVal = div[i].textContent;
 
@@ -37,7 +33,6 @@ function searchIt(input) {
         if (textVal.toUpperCase().indexOf(filter) > -1) {
             div[i].style.display = "";
             hr[i].style.display = "";
-            console.log(div[i].innerHTML)
         }
     }
 }
