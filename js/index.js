@@ -1,5 +1,5 @@
 window.addEventListener("load", function() {
-    document.getElementById("softkey-left").innerHTML = 'Dark-Mode';
+    document.getElementById("softkey-left").innerHTML = '';
     document.getElementById("softkey-center").innerHTML = 'SEARCH';
     document.getElementById("softkey-right").innerHTML = '';
 });

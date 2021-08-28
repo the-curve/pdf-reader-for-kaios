@@ -1,100 +1,83 @@
-window.addEventListener("load", function () {
+window.addEventListener("load", function() {
     document.getElementById("options").style.display = "none";
-    var list = document.getElementById("list");
     document.getElementById("searchBox").focus();
-    makeActive("nav");
 })
 
-function makeActive(e) {
-    var element = document.getElementById(e)
-    element.classList.add("active");
-}
-
-function isActive(e) {
-    var element = document.getElementById(e)
-    if (element == null) { // Do nothing!!!
-    } else if (element.classList.contains("active")) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function removeActive(e) {
-    var element = document.getElementById(e)
-    if (element) {
-        element.classList.remove("active");
-    }
-}
-
-document.onkeydown = function (evt) {
+document.onkeydown = function(evt) {
     switch (evt.key) {
-        case "Enter": enterKey();
+        case "Enter":
+            enterKey();
             break;
-        case "5": easyRead();
+        case "5":
+            easyRead();
             break;
-        case "ArrowDown": arrowDown(evt);
+        case "ArrowDown":
+            arrowDown(evt);
             break;
-        case "ArrowUp": arrowUp(evt);
+        case "ArrowUp":
+            arrowUp(evt);
             break;
-        case "SoftLeft": SoftLeft();
+        case "SoftLeft":
+            SoftLeft();
             break;
-        case "SoftRight": SoftRight();
+        case "SoftRight":
+            SoftRight();
             break;
-        case "Backspace": Backspace(evt);
+        case "Backspace":
+            Backspace(evt);
             break;
     }
 }
 
-var nav = 1;
 var scroll = 0;
 var op = 1
 maxOp = 4
+var i;
 
 function arrowDown(event) {
     event.preventDefault();
     const searchBox = document.getElementById("searchBox");
+    const list = document.getElementById("list");
+    const div = list.getElementsByTagName("div");
+    const nav = document.getElementById("nav");
 
     if (document.getElementById("options").style.display == "") {
         if (op == maxOp) {
-            removeActive("op" + op);
-            op = 1;
-            makeActive("op" + op);
-        } else if (isActive("op" + op)) {
-            removeActive("op" + op);
-            makeActive("op" + (
-                op + 1
-            ));
+            document.getElementById("op" + op).classList.remove("active");
+            op = 1
+            document.getElementById("op" + op).classList.add("active")
+        } else if (document.getElementById("op" + op).classList.contains("active")) {
+            document.getElementById("op" + op).classList.remove("active")
+            document.getElementById("op" + (op + 1)).classList.add("active")
             op++;
         }
+    } else if (searchBox.matches(":focus")) {
+        nav.classList.remove("active");
+        searchBox.blur();
+        list.firstElementChild.classList.add("active")
 
-    } else if (nav == no_of_divs) {
-        removeActive(nav)
-        nav = 1;
-        makeActive("nav");
+        document.getElementById("softkey-center").innerHTML = 'OPEN';
+        document.getElementById("softkey-right").innerHTML = 'Options';
+    } else if (div[div.length - 1].classList.contains("active")) { //when last div active
+        div[div.length - 1].classList.remove("active")
+        nav.classList.add("active");
         searchBox.focus();
+
         window.scrollTo(0, 0);
         document.getElementById("softkey-center").innerHTML = 'SEARCH';
         document.getElementById("softkey-right").innerHTML = '';
-    } else if (searchBox.matches(":focus")) {
-        searchBox.blur();
-        removeActive("nav");
-        makeActive("1");
-        document.getElementById("softkey-center").innerHTML = 'OPEN';
-        document.getElementById("softkey-right").innerHTML = 'Options';
-    } else if (isActive(nav)) {
-        removeActive(nav);
-        makeActive(nav + 1);
-        nav++;
+    } else {
+        for (i = 0; i < div.length; i++) {
+            if (div[i].classList.contains("active")) {
+                div[i].classList.remove("active")
+                i = i + 1;
+                div[i].classList.add("active")
 
-        if (nav > 3) {
-            scroll = window.pageYOffset + 65;
-            window.scrollTo(0, scroll);
-        }
-
-        if (nav > 0) {
-            document.getElementById("softkey-center").innerHTML = 'OPEN';
-            document.getElementById("softkey-right").innerHTML = 'Options';
+                if (i >= 3) {
+                    scroll = window.pageYOffset + 65;
+                    window.scrollTo(0, scroll);
+                }
+            }
         }
     }
 }
@@ -102,44 +85,51 @@ function arrowDown(event) {
 function arrowUp(event) {
     event.preventDefault();
     const searchBox = document.getElementById("searchBox");
+    const list = document.getElementById("list");
+    const div = list.getElementsByTagName("div");
+    const nav = document.getElementById("nav");
 
     if (document.getElementById("options").style.display == "") {
         if (op == 1) {
-            removeActive("op" + op);
+            document.getElementById("op" + op).classList.remove("active");
             op = maxOp;
-            makeActive("op" + op);
-        } else if (isActive("op" + op)) {
-            removeActive("op" + op);
-            makeActive("op" + (
-                op - 1
-            ));
+            document.getElementById("op" + op).classList.add("active")
+        } else if (document.getElementById("op" + op).classList.contains("active")) {
+            document.getElementById("op" + op).classList.remove("active")
+            document.getElementById("op" + (op - 1)).classList.add("active")
             op--;
         }
-
-    } else if (isActive("nav")) {
-        nav = no_of_divs;
-        removeActive("nav");
+    } else if (searchBox.matches(":focus")) {
+        nav.classList.remove("active");
         searchBox.blur();
-        makeActive(nav);
+        div[div.length - 1].classList.add("active")
+
         window.scrollTo(0, document.body.scrollHeight);
 
         document.getElementById("softkey-center").innerHTML = 'OPEN';
         document.getElementById("softkey-right").innerHTML = 'Options';
-    } else if (nav == 1 && ! searchBox.matches(":focus")) {
+    } else if (list.firstElementChild.classList.contains("active")) {
+        list.firstElementChild.classList.remove("active")
+        nav.classList.add("active");
+        searchBox.focus();
+
         document.getElementById("softkey-center").innerHTML = 'SEARCH';
         document.getElementById("softkey-right").innerHTML = '';
+    } else {
+        for (i = 0; i < div.length; i++) {
+            if (div[i].classList.contains("active")) {
+                div[i].classList.remove("active")
+                i = i - 1;
+                div[i].classList.add("active")
 
-        removeActive("1");
-        searchBox.focus();
-        makeActive("nav");
-    } else if (isActive(nav)) {
-        removeActive(nav);
-        makeActive(nav - 1);
-        nav--
-
-        if (nav <= no_of_divs - 3) {
-            scroll = window.pageYOffset - 65;
-            window.scrollTo(0, scroll);
+                if (i >= 3) {
+                    scroll = window.pageYOffset - 65;
+                    window.scrollTo(0, scroll);
+                }
+                if (i == 2) {
+                    window.scrollTo(0, 0);
+                }
+            }
         }
     }
 }
@@ -158,13 +148,17 @@ function enterKey() {
         }
     } else {
         switch (op) {
-            case 1: renameDoc();
+            case 1:
+                renameDoc();
                 break;
-            case 2: deleteDoc();
+            case 2:
+                deleteDoc();
                 break;
-            case 3: getInfoDoc();
+            case 3:
+                getInfoDoc();
                 break;
-            case 4: shareDoc();
+            case 4:
+                shareDoc();
                 break;
         }
     }
@@ -188,22 +182,22 @@ function renameDoc() {
         var sdcard = navigator.getDeviceStorage('sdcard');
         var request = sdcard.getEditable(path);
 
-        request.onsuccess = function () {
+        request.onsuccess = function() {
             var fileReader = new FileReader();
 
-            fileReader.onload = function () {
+            fileReader.onload = function() {
                 var typedarray = new Uint8Array(this.result);
-                var blob = new Blob([typedarray], {"type": "application/pdf"});
+                var blob = new Blob([typedarray], { "type": "application/pdf" });
 
                 var reqChange = sdcard.addNamed(blob, (newName + ".pdf"));
 
-                reqChange.onsuccess = function () {
+                reqChange.onsuccess = function() {
                     var reqDel = sdcard.delete(path);
-                    reqDel.onsuccess = function () {
+                    reqDel.onsuccess = function() {
                         window.location.reload();
                     }
                 }
-                reqChange.onerror = function () {
+                reqChange.onerror = function() {
                     console.log(this.error);
                     alert("Cannot rename file")
                 }
@@ -228,11 +222,11 @@ function deleteDoc() {
     if (confirmation) {
         var request = sdcard.delete(path);
 
-        request.onsuccess = function () {
+        request.onsuccess = function() {
             window.location.reload();
         }
 
-        request.onerror = function () {
+        request.onerror = function() {
             console.log(this.error);
             alert("Unable to delete the file");
         }
@@ -262,18 +256,7 @@ function shareDoc() {
         }
     }
 
-    var sdcard = navigator.getDeviceStorage('sdcard');
-    var request = sdcard.getEditable(path);
-
-    request.onsuccess = function () {
-        var fileReader = new FileReader();
-
-        fileReader.onload = function () {
-            var typedarray = new Uint8Array(this.result);
-            var blob = new Blob([typedarray], {"type": "application/pdf"});
-        }
-        fileReader.readAsArrayBuffer(this.result);
-    }
+    alert("Demn!");
 }
 
 function easyRead() {
@@ -302,7 +285,7 @@ function SoftRight() { // Open options menu with (Rename, delete and path)
         if (options.style.display == "") {
             return;
         } else if (countRight == 0) {
-            makeActive("op1")
+            document.getElementById("op1").classList.add("active")
             options.style.display = "";
             document.getElementById("softkey-left").innerHTML = '';
             document.getElementById("softkey-center").innerHTML = 'SELECT';
@@ -317,9 +300,9 @@ function Backspace(event) {
     if (countRight == 1) {
         options.style.display = "none";
         countRight--;
-        removeActive("op" + op);
+        document.getElementById("op" + op).classList.remove("active")
         op = 1;
-        document.getElementById("softkey-left").innerHTML = 'Dark-Mode';
+        document.getElementById("softkey-left").innerHTML = '';
         document.getElementById("softkey-center").innerHTML = 'OPEN';
         document.getElementById("softkey-right").innerHTML = 'Options';
     } else {
