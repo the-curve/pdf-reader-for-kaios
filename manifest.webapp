@@ -14,7 +14,7 @@
     },
 
     "type": "certified",
-    "origin": "app://pdfreader.me",
+    "origin": "app://pdfreader.edu",
     "fullscreen": "true",
 
     "permissions": {
