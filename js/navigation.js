@@ -1,30 +1,23 @@
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
     document.getElementById("options").style.display = "none";
     document.getElementById("searchBox").focus();
 })
 
-document.onkeydown = function(evt) {
+document.onkeydown = function (evt) {
     switch (evt.key) {
-        case "Enter":
-            enterKey();
+        case "Enter": enterKey();
             break;
-        case "5":
-            easyRead();
+        case "5": easyRead();
             break;
-        case "ArrowDown":
-            arrowDown(evt);
+        case "ArrowDown": arrowDown(evt);
             break;
-        case "ArrowUp":
-            arrowUp(evt);
+        case "ArrowUp": arrowUp(evt);
             break;
-        case "SoftLeft":
-            SoftLeft();
+        case "SoftLeft": SoftLeft();
             break;
-        case "SoftRight":
-            SoftRight();
+        case "SoftRight": SoftRight();
             break;
-        case "Backspace":
-            Backspace(evt);
+        case "Backspace": Backspace(evt);
             break;
     }
 }
@@ -48,28 +41,58 @@ function arrowDown(event) {
             document.getElementById("op" + op).classList.add("active")
         } else if (document.getElementById("op" + op).classList.contains("active")) {
             document.getElementById("op" + op).classList.remove("active")
-            document.getElementById("op" + (op + 1)).classList.add("active")
+            document.getElementById("op" + (
+                op + 1
+            )).classList.add("active")
             op++;
+        }
+    } else if (searching) {
+        if (searchBox.matches(":focus")) {
+            nav.classList.remove("active");
+            searchBox.blur();
+
+            index[0].classList.add("active")
+
+            document.getElementById("softkey-center").innerHTML = 'OPEN';
+            document.getElementById("softkey-right").innerHTML = 'Options';
+        }else if(index[index.length-1].classList.contains("active")){
+            index[index.length - 1].classList.remove("active")
+            nav.classList.add("active");
+            searchBox.focus();
+    
+            window.scrollTo(0, 0);
+            document.getElementById("softkey-center").innerHTML = 'SEARCH';
+            document.getElementById("softkey-right").innerHTML = 'Clear';
+        }else{
+            for (i = 0; i < index.length; i++) {
+                if (index[i].classList.contains("active")) {
+                    index[i].classList.remove("active")
+                    i = i + 1;
+                    index[i].classList.add("active")
+    
+                    if (i >= 3) {
+                        scroll = window.pageYOffset + 65;
+                        window.scrollTo(0, scroll);
+                    }
+                }
+            }
         }
     } else if (searchBox.matches(":focus")) {
         nav.classList.remove("active");
         searchBox.blur();
+
         list.firstElementChild.classList.add("active")
 
         document.getElementById("softkey-center").innerHTML = 'OPEN';
         document.getElementById("softkey-right").innerHTML = 'Options';
-    } else if (div[div.length - 1].classList.contains("active")) { //when last div active
+    } else if (div[div.length - 1].classList.contains("active")) { // when last div active
         div[div.length - 1].classList.remove("active")
         nav.classList.add("active");
         searchBox.focus();
 
         window.scrollTo(0, 0);
         document.getElementById("softkey-center").innerHTML = 'SEARCH';
-        if (searching == true && searchBox.value != "") {
-            document.getElementById("softkey-right").innerHTML = 'Clear';
-        } else {
-            document.getElementById("softkey-right").innerHTML = '';
-        }
+        document.getElementById("softkey-right").innerHTML = '';
     } else {
         for (i = 0; i < div.length; i++) {
             if (div[i].classList.contains("active")) {
@@ -100,8 +123,44 @@ function arrowUp(event) {
             document.getElementById("op" + op).classList.add("active")
         } else if (document.getElementById("op" + op).classList.contains("active")) {
             document.getElementById("op" + op).classList.remove("active")
-            document.getElementById("op" + (op - 1)).classList.add("active")
+            document.getElementById("op" + (
+                op - 1
+            )).classList.add("active")
             op--;
+        }
+    } else if (searching) {
+        if (searchBox.matches(":focus")) {
+            nav.classList.remove("active");
+            searchBox.blur();
+            index[index.length - 1].classList.add("active")
+
+            window.scrollTo(0, document.body.scrollHeight);
+
+            document.getElementById("softkey-center").innerHTML = 'OPEN';
+            document.getElementById("softkey-right").innerHTML = 'Options';
+        } else if (index[0].classList.contains("active")) {
+            index[0].classList.remove("active");
+            nav.classList.add("active")
+            searchBox.focus();
+
+            document.getElementById("softkey-center").innerHTML = 'SEARCH';
+            document.getElementById("softkey-right").innerHTML = 'Clear';
+        }else{ 
+            for (i = 0; i < index.length; i++) {
+                if (index[i].classList.contains("active")) {
+                    index[i].classList.remove("active")
+                    i = i - 1;
+                    index[i].classList.add("active")
+    
+                    if (i >= 3) {
+                        scroll = window.pageYOffset - 65;
+                        window.scrollTo(0, scroll);
+                    }
+                    if (i == 2) {
+                        window.scrollTo(0, 0);
+                    }
+                }
+            }
         }
     } else if (searchBox.matches(":focus")) {
         nav.classList.remove("active");
@@ -156,17 +215,13 @@ function enterKey() {
         }
     } else {
         switch (op) {
-            case 1:
-                renameDoc();
+            case 1: renameDoc();
                 break;
-            case 2:
-                deleteDoc();
+            case 2: deleteDoc();
                 break;
-            case 3:
-                getInfoDoc();
+            case 3: getInfoDoc();
                 break;
-            case 4:
-                shareDoc();
+            case 4: shareDoc();
                 break;
         }
     }
@@ -190,22 +245,22 @@ function renameDoc() {
         var sdcard = navigator.getDeviceStorage('sdcard');
         var request = sdcard.getEditable(path);
 
-        request.onsuccess = function() {
+        request.onsuccess = function () {
             var fileReader = new FileReader();
 
-            fileReader.onload = function() {
+            fileReader.onload = function () {
                 var typedarray = new Uint8Array(this.result);
-                var blob = new Blob([typedarray], { "type": "application/pdf" });
+                var blob = new Blob([typedarray], {"type": "application/pdf"});
 
                 var reqChange = sdcard.addNamed(blob, (newName + ".pdf"));
 
-                reqChange.onsuccess = function() {
+                reqChange.onsuccess = function () {
                     var reqDel = sdcard.delete(path);
-                    reqDel.onsuccess = function() {
+                    reqDel.onsuccess = function () {
                         window.location.reload();
                     }
                 }
-                reqChange.onerror = function() {
+                reqChange.onerror = function () {
                     console.log(this.error);
                     alert("Cannot rename file")
                 }
@@ -230,11 +285,11 @@ function deleteDoc() {
     if (confirmation) {
         var request = sdcard.delete(path);
 
-        request.onsuccess = function() {
+        request.onsuccess = function () {
             window.location.reload();
         }
 
-        request.onerror = function() {
+        request.onerror = function () {
             console.log(this.error);
             alert("Unable to delete the file");
         }
