@@ -1,5 +1,6 @@
 const searchBox = document.getElementById("searchBox");
 var searching = false;
+var index = [];
 
 document.addEventListener('keypress', (event) => {
     const keyName = event.key;
@@ -8,10 +9,12 @@ document.addEventListener('keypress', (event) => {
             searchIt(searchBox.value);
         }
     } else if (keyName == "SoftRight") {
-        searchIt("");
-        searchBox.value = "";
-        searching = false;
-        document.getElementById("softkey-right").innerHTML = '';
+        if(searchBox.matches(":focus") && searchBox.value != ""){
+            searchIt("");
+            searchBox.value = "";
+            searching = false;
+            document.getElementById("softkey-right").innerHTML = '';
+        }
     }
 })
 
@@ -20,6 +23,7 @@ function searchIt(input) {
     var list = document.getElementById("list");
     var div = list.getElementsByTagName("div");
     var hr = list.getElementsByTagName("hr");
+    index = [];
 
     document.getElementById("softkey-right").innerHTML = 'Clear';
     searching = true;
@@ -33,6 +37,8 @@ function searchIt(input) {
         if (textVal.toUpperCase().indexOf(filter) > -1) {
             div[i].style.display = "";
             hr[i].style.display = "";
+            index.push(div[i]);
         }
     }
+    console.log(index)
 }
