@@ -4,8 +4,7 @@
     "description": "A beautiful PDF reader",
     "launch_path": "/index.html",
     "icons": {
-        "56": "/icons/56x56.png",
-        "84": "/icons/84x84.png"
+        "128": "/icons/128.png"
     },
 
     "developer": {
@@ -14,7 +13,7 @@
     },
 
     "type": "certified",
-    "origin": "app://pdfreader.edu",
+    "origin": "app://curve.pdfviewer",
     "fullscreen": "true",
 
     "permissions": {
