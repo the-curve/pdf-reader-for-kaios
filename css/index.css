@@ -1,7 +1,7 @@
 html,
 body {
     margin: 0;
-    background-color: #f2f2f2;
+    background-color: #E8E9EB;
 }
 
 #infoHead {
@@ -76,19 +76,19 @@ body {
 }
 
 #optionsList .active {
-    background-color: #4f5d75;
+    background-color: #374358;
     color: #fff;
 }
 
 #nav {
-    background-color: #f2f2f2;
+    background-color: #E8E9EB;
     position: fixed;
     z-index: 100000;
     width: 100%;
 }
 
 #nav.active {
-    background-color: #4f5d75;
+    background-color: #374358;
     position: fixed;
     z-index: 100000;
     width: 100%;
@@ -139,7 +139,7 @@ hr {
 }
 
 .fileButton {
-    background-color: #f2f2f2;
+    background-color: #E8E9EB;
     font-family: Open Sans;
     display: block;
     font-size: 18px;
@@ -155,7 +155,7 @@ hr {
 }
 
 .fileButton.active {
-    background-color: #4f5d75;
+    background-color: #374358;
     color: #fff;
 }
 

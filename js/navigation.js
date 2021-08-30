@@ -329,8 +329,6 @@ function shareDoc() {
             path = list.children[i].getAttribute("path");
         }
     }
-
-    alert("Demn!");
 }
 
 function easyRead() {
