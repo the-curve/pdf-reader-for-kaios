@@ -1,23 +1,30 @@
-window.addEventListener("load", function () {
+window.addEventListener("load", function() {
     document.getElementById("options").style.display = "none";
     document.getElementById("searchBox").focus();
 })
 
-document.onkeydown = function (evt) {
+document.onkeydown = function(evt) {
     switch (evt.key) {
-        case "Enter": enterKey();
+        case "Enter":
+            enterKey();
             break;
-        case "5": easyRead();
+        case "5":
+            easyRead();
             break;
-        case "ArrowDown": arrowDown(evt);
+        case "ArrowDown":
+            arrowDown(evt);
             break;
-        case "ArrowUp": arrowUp(evt);
+        case "ArrowUp":
+            arrowUp(evt);
             break;
-        case "SoftLeft": SoftLeft();
+        case "SoftLeft":
+            SoftLeft();
             break;
-        case "SoftRight": SoftRight();
+        case "SoftRight":
+            SoftRight();
             break;
-        case "Backspace": Backspace(evt);
+        case "Backspace":
+            Backspace(evt);
             break;
     }
 }
@@ -55,21 +62,21 @@ function arrowDown(event) {
 
             document.getElementById("softkey-center").innerHTML = 'OPEN';
             document.getElementById("softkey-right").innerHTML = 'Options';
-        }else if(index[index.length-1].classList.contains("active")){
+        } else if (index[index.length - 1].classList.contains("active")) {
             index[index.length - 1].classList.remove("active")
             nav.classList.add("active");
             searchBox.focus();
-    
+
             window.scrollTo(0, 0);
             document.getElementById("softkey-center").innerHTML = 'SEARCH';
             document.getElementById("softkey-right").innerHTML = 'Clear';
-        }else{
+        } else {
             for (i = 0; i < index.length; i++) {
                 if (index[i].classList.contains("active")) {
                     index[i].classList.remove("active")
                     i = i + 1;
                     index[i].classList.add("active")
-    
+
                     if (i >= 3) {
                         scroll = window.pageYOffset + 65;
                         window.scrollTo(0, scroll);
@@ -145,13 +152,13 @@ function arrowUp(event) {
 
             document.getElementById("softkey-center").innerHTML = 'SEARCH';
             document.getElementById("softkey-right").innerHTML = 'Clear';
-        }else{ 
+        } else {
             for (i = 0; i < index.length; i++) {
                 if (index[i].classList.contains("active")) {
                     index[i].classList.remove("active")
                     i = i - 1;
                     index[i].classList.add("active")
-    
+
                     if (i >= 3) {
                         scroll = window.pageYOffset - 65;
                         window.scrollTo(0, scroll);
@@ -215,13 +222,17 @@ function enterKey() {
         }
     } else {
         switch (op) {
-            case 1: renameDoc();
+            case 1:
+                renameDoc();
                 break;
-            case 2: deleteDoc();
+            case 2:
+                deleteDoc();
                 break;
-            case 3: getInfoDoc();
+            case 3:
+                getInfoDoc();
                 break;
-            case 4: shareDoc();
+            case 4:
+                shareDoc();
                 break;
         }
     }
@@ -245,22 +256,22 @@ function renameDoc() {
         var sdcard = navigator.getDeviceStorage('sdcard');
         var request = sdcard.getEditable(path);
 
-        request.onsuccess = function () {
+        request.onsuccess = function() {
             var fileReader = new FileReader();
 
-            fileReader.onload = function () {
+            fileReader.onload = function() {
                 var typedarray = new Uint8Array(this.result);
-                var blob = new Blob([typedarray], {"type": "application/pdf"});
+                var blob = new Blob([typedarray], { "type": "application/pdf" });
 
                 var reqChange = sdcard.addNamed(blob, (newName + ".pdf"));
 
-                reqChange.onsuccess = function () {
+                reqChange.onsuccess = function() {
                     var reqDel = sdcard.delete(path);
-                    reqDel.onsuccess = function () {
+                    reqDel.onsuccess = function() {
                         window.location.reload();
                     }
                 }
-                reqChange.onerror = function () {
+                reqChange.onerror = function() {
                     console.log(this.error);
                     alert("Cannot rename file")
                 }
@@ -285,11 +296,11 @@ function deleteDoc() {
     if (confirmation) {
         var request = sdcard.delete(path);
 
-        request.onsuccess = function () {
+        request.onsuccess = function() {
             window.location.reload();
         }
 
-        request.onerror = function () {
+        request.onerror = function() {
             console.log(this.error);
             alert("Unable to delete the file");
         }
@@ -335,9 +346,6 @@ function easyRead() {
             document.location.href = url;
         }
     }
-}
-
-function SoftLeft() { // Change the theme...
 }
 
 var countRight = 0;
