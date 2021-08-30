@@ -13,7 +13,7 @@
     },
 
     "type": "certified",
-    "origin": "app://curve.pdfviewer",
+    "origin": "app://curve.pdfreader.com",
     "fullscreen": "true",
 
     "permissions": {

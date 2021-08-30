@@ -18,37 +18,71 @@ body {
 }
 
 #loader {
-    overflow: hidden;
-    border: 5px solid #bfc0c0;
+    display: inline-block;
+    position: relative;
+    width: 80px;
+}
+
+#loader div {
+    position: absolute;
+    top: 33px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
-    border-top: 5px solid #4f5d75;
-    width: 50px;
-    height: 50px;
-    -webkit-animation: spin 2s linear infinite;
-    animation: spin 1s linear infinite;
+    background: #383961;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 
-@-webkit-keyframes spin {
+#loader div:nth-child(1) {
+    left: 8px;
+    animation: lds-ellipsis1 0.6s infinite;
+}
+
+#loader div:nth-child(2) {
+    left: 8px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+#loader div:nth-child(3) {
+    left: 32px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+#loader div:nth-child(4) {
+    left: 56px;
+    animation: lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes lds-ellipsis1 {
     0% {
-        -webkit-transform: rotate(0deg);
+        transform: scale(0);
     }
     100% {
-        -webkit-transform: rotate(360deg);
+        transform: scale(1);
     }
 }
 
-@keyframes spin {
+@keyframes lds-ellipsis3 {
     0% {
-        transform: rotate(0deg);
+        transform: scale(1);
     }
     100% {
-        transform: rotate(360deg);
+        transform: scale(0);
+    }
+}
+
+@keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(24px, 0);
     }
 }
 
 #set2 {
     margin: 0;
-    padding-left: 37%;
+    padding-left: 33%;
     padding-top: 50%;
 }
 
