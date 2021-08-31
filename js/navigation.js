@@ -55,13 +55,15 @@ function arrowDown(event) {
         }
     } else if (searching) {
         if (searchBox.matches(":focus")) {
-            nav.classList.remove("active");
-            searchBox.blur();
+            if (!index.length == 0) {
+                nav.classList.remove("active");
+                searchBox.blur();
 
-            index[0].classList.add("active")
+                index[0].classList.add("active")
 
-            document.getElementById("softkey-center").innerHTML = 'OPEN';
-            document.getElementById("softkey-right").innerHTML = 'Options';
+                document.getElementById("softkey-center").innerHTML = 'OPEN';
+                document.getElementById("softkey-right").innerHTML = 'Options';
+            }
         } else if (index[index.length - 1].classList.contains("active")) {
             index[index.length - 1].classList.remove("active")
             nav.classList.add("active");
@@ -85,13 +87,15 @@ function arrowDown(event) {
             }
         }
     } else if (searchBox.matches(":focus")) {
-        nav.classList.remove("active");
-        searchBox.blur();
+        if (!div.length == 0) {
+            nav.classList.remove("active");
+            searchBox.blur();
 
-        list.firstElementChild.classList.add("active")
+            list.firstElementChild.classList.add("active")
 
-        document.getElementById("softkey-center").innerHTML = 'OPEN';
-        document.getElementById("softkey-right").innerHTML = 'Options';
+            document.getElementById("softkey-center").innerHTML = 'OPEN';
+            document.getElementById("softkey-right").innerHTML = 'Options';
+        }
     } else if (div[div.length - 1].classList.contains("active")) { // when last div active
         div[div.length - 1].classList.remove("active")
         nav.classList.add("active");
@@ -137,14 +141,16 @@ function arrowUp(event) {
         }
     } else if (searching) {
         if (searchBox.matches(":focus")) {
-            nav.classList.remove("active");
-            searchBox.blur();
-            index[index.length - 1].classList.add("active")
+            if (!index.length == 0) {
+                nav.classList.remove("active");
+                searchBox.blur();
+                index[index.length - 1].classList.add("active")
 
-            window.scrollTo(0, document.body.scrollHeight);
+                window.scrollTo(0, document.body.scrollHeight);
 
-            document.getElementById("softkey-center").innerHTML = 'OPEN';
-            document.getElementById("softkey-right").innerHTML = 'Options';
+                document.getElementById("softkey-center").innerHTML = 'OPEN';
+                document.getElementById("softkey-right").innerHTML = 'Options';
+            }
         } else if (index[0].classList.contains("active")) {
             index[0].classList.remove("active");
             nav.classList.add("active")
@@ -170,14 +176,16 @@ function arrowUp(event) {
             }
         }
     } else if (searchBox.matches(":focus")) {
-        nav.classList.remove("active");
-        searchBox.blur();
-        div[div.length - 1].classList.add("active")
+        if (!div.length == 0) {
+            nav.classList.remove("active");
+            searchBox.blur();
+            div[div.length - 1].classList.add("active")
 
-        window.scrollTo(0, document.body.scrollHeight);
+            window.scrollTo(0, document.body.scrollHeight);
 
-        document.getElementById("softkey-center").innerHTML = 'OPEN';
-        document.getElementById("softkey-right").innerHTML = 'Options';
+            document.getElementById("softkey-center").innerHTML = 'OPEN';
+            document.getElementById("softkey-right").innerHTML = 'Options';
+        }
     } else if (list.firstElementChild.classList.contains("active")) {
         list.firstElementChild.classList.remove("active")
         nav.classList.add("active");
