@@ -29,3 +29,7 @@ You can also Press 5 instead of Enter key while selecting PDF file to open PDF a
 * Easy read works well if pdf is simple and not have too much styling(like: color, underline, boldness, etc...)
 * If PDF have any images it will not display (if cover page has image goto next page)
 * This feature canbe useful for small screens
+
+<h3 align="center">      
+   No OmniSD install using WebIDE!!!
+</h3>
