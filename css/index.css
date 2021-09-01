@@ -4,6 +4,42 @@ body {
     background-color: #E8E9EB;
 }
 
+#sort{
+    font-family: Open Sans;
+    letter-spacing: 0.03em;
+}
+
+#sort hr{
+    margin-left: 0;
+    background-color: #555;
+}
+
+#sort h3{
+    font-size: 16.5px;
+    text-align: center;
+    margin: 8px;
+}
+
+#sort p {
+    margin-top: 10px;
+    font-size: 16px;
+    padding-left: 10px;
+    padding-top: 15px;
+}
+
+#sortHead {
+    font-family: Open Sans;
+    width: 100%;
+    background-color: #14213d;
+    color: #fafafa;
+    height: 25px;
+    font-size: 18px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: center;
+}
+
+
 #infoHead {
     font-family: Open Sans;
     position: fixed;

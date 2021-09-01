@@ -4,6 +4,25 @@ window.addEventListener("load", function () {
     document.getElementById("softkey-right").innerHTML = '';
 });
 
+/*
+ * Below some code is only to get method of sorting
+ */
+try {
+    var ur = document.location.href,
+        params = ur.split('?')[1].split('&'),
+        data = {},
+        tmp;
+
+    for (var i = 0, l = params.length; i < l; i++) {
+        tmp = params[i].split('=');
+        data[tmp[0]] = tmp[1];
+    }
+    var method = data.method;
+} catch (error) {} //D.N.
+/*
+ * Above some code was only to get method of sorting
+ */
+
 var screenMode;
 if (window.matchMedia("(orientation: portrait)").matches) {
     screenMode = "portrait";
@@ -13,7 +32,9 @@ if (window.matchMedia("(orientation: portrait)").matches) {
 
 var count = 1;
 var filesArray = [];
-searchFiles("name");
+
+console.log("Method: "+ method);
+searchFiles(method);
 
 function searchFiles(sortby) {
     var sdcards = navigator.getDeviceStorages("sdcard");
@@ -52,31 +73,30 @@ function getCount(parent, countFor) {
  * <3 Kisses to stackOverflow!
  */
 function sortIt(sortby) {
-    for (var i = 0; i < filesArray.length; i++) {
-
-        // Sorting by date...
+    for (var i = 0; i < filesArray.length; i++) { // Sorting by date...
         if (sortby == "date") {
             filesArray.sort(function (a, b) {
                 return new Date(b.lastModified) - new Date(a.lastModified);
             });
-        } else if (sortby == "name") {
-            // Sorting by name...
-            filesArray.sort(function(a, b){
-                // toLowerCase is important
+        } else if (sortby == "name" || typeof method == "undefined") { // Sorting by name...
+            filesArray.sort(function (a, b) { // toLowerCase is important
                 var aname = a.name.slice(a.name.lastIndexOf("/")).toLowerCase();
                 var bname = b.name.slice(b.name.lastIndexOf("/")).toLowerCase();
-                
-                if(aname < bname) { return -1; }
-                if(aname > bname) { return 1; }
+
+                if (aname < bname) {
+                    return -1;
+                }
+                if (aname > bname) {
+                    return 1;
+                }
                 return 0;
             })
-        } else if (sortby = "size") {
-            // Sorting by size...
-            filesArray.sort(function(a,b){
+        } else if (sortby = "size") { // Sorting by size...
+            filesArray.sort(function (a, b) {
                 a = a.size;
                 b = b.size;
-                
-                return a-b;
+
+                return a - b;
             });
         }
 
