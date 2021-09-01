@@ -9,7 +9,7 @@ document.addEventListener('keypress', (event) => {
             searchIt(searchBox.value);
         }
     } else if (keyName == "SoftRight") {
-        if(searchBox.matches(":focus") && searchBox.value != ""){
+        if(searchBox.matches(":focus")){
             searchIt("");
             searchBox.value = "";
             searching = false;
