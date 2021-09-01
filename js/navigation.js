@@ -321,12 +321,15 @@ function getInfoDoc() {
             path = list.children[i].getAttribute("path");
         }
     }
+    Backspace();
     var url = "getInfo.html?path=" + path;
     document.location.href = url;
 }
 
 function sorting() {
-    // Get input and call searchFiles(SortBy)
+    Backspace();
+
+    document.location.href = "sort.html";
 }
 
 function easyRead() {
@@ -363,7 +366,11 @@ function SoftRight() { // Open options menu with (Rename, delete and path)
 }
 
 function Backspace(event) {
-    event.preventDefault();
+    try {
+        event.preventDefault();
+    } catch (error) {
+        console.log("No worries event is undefined")
+    }
     if (countRight == 1) {
         options.style.display = "none";
         countRight--;
