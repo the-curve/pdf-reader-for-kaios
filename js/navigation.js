@@ -240,7 +240,7 @@ function enterKey() {
                 getInfoDoc();
                 break;
             case 4:
-                shareDoc();
+                sorting();
                 break;
         }
     }
@@ -251,7 +251,6 @@ function enterKey() {
  * and delete previous file
  */
 function renameDoc() {
-    console.log("Renaming...");
     var path = "";
     for (let i = 0; i < list.children.length; i++) {
         if (list.children[i].classList.contains("active")) {
@@ -290,7 +289,6 @@ function renameDoc() {
 }
 // Delete file
 function deleteDoc() {
-    console.log("Deleting...");
     var path = "";
     for (let i = 0; i < list.children.length; i++) {
         if (list.children[i].classList.contains("active")) {
@@ -316,7 +314,6 @@ function deleteDoc() {
 }
 
 function getInfoDoc() {
-    console.log("Getting Info...");
     var path = "";
 
     for (let i = 0; i < list.children.length; i++) {
@@ -328,15 +325,8 @@ function getInfoDoc() {
     document.location.href = url;
 }
 
-function shareDoc() {
-    console.log("Sharing...");
-    var path = "";
-
-    for (let i = 0; i < list.children.length; i++) {
-        if (list.children[i].classList.contains("active")) {
-            path = list.children[i].getAttribute("path");
-        }
-    }
+function sorting() {
+    // Get input and call searchFiles(SortBy)
 }
 
 function easyRead() {
