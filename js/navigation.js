@@ -1,215 +1,200 @@
-window.addEventListener("load", function() {
-    document.getElementById("options").style.display = "none";
-    document.getElementById("searchBox").focus();
-})
+// Some variables
+const list = document.getElementById("pdf-list")
+const div = list.getElementsByTagName("div");
+const searchBox = document.getElementById("searchBox");
+const optionMenu = document.getElementById("options-menu");
+const optionList = document.getElementsByTagName("li");
 
+var index = [];
+
+var checkExist = setInterval(function() {
+    if (list.childElementCount) {
+        for (let i = 0; i < div.length; i++) {
+            index.push(div[i]);
+        }
+        clearInterval(checkExist);
+    }
+}, 100);
+
+function searchFocus() {
+    var searchContainer = document.getElementById("search_container")
+    searchContainer.firstElementChild.focus();
+    searchContainer.classList.add("selected");
+}
+
+function searchBlur() {
+    var searchContainer = document.getElementById("search_container")
+    searchContainer.firstElementChild.blur();
+    searchContainer.classList.remove("selected");
+}
+
+function updateSoftKey() {
+    const lsk = document.getElementById("lsk");
+    const csk = document.getElementById("csk");
+    const rsk = document.getElementById("rsk");
+    if (optionMenu.style.display == "") {
+        lsk.innerHTML = "";
+        csk.innerHTML = "Select"
+        rsk.innerHTML = "";
+    } else if (document.activeElement.tagName !== 'INPUT') {
+        lsk.innerHTML = "Search";
+        csk.innerHTML = "Open"
+        rsk.innerHTML = "Options";
+    } else {
+        lsk.innerHTML = "";
+        csk.innerHTML = ""
+        rsk.innerHTML = "";
+    }
+}
+
+searchFocus();
+
+// Search
+searchBox.addEventListener('input', (evt) => {
+    setTimeout(() => {
+        var input = evt.target.value;
+        var filter = input.toUpperCase();
+        var hr = document.getElementsByTagName("hr");
+        index = [];
+
+        for (var i = 0; i < div.length; i++) {
+            var textVal = div[i].firstElementChild.textContent;
+
+            div[i].style.display = "none";
+            hr[i].style.display = "none"
+
+            if (textVal.toUpperCase().indexOf(filter) > -1) {
+                div[i].style.display = "";
+                hr[i].style.display = ""
+                index.push(div[i]);
+            }
+        }
+    }, 500)
+});
+
+// Navigation
+var countRight = 0;
 document.onkeydown = function(evt) {
     switch (evt.key) {
+        case "ArrowDown":
+            evt.preventDefault();
+            if (document.activeElement.tagName == 'INPUT') {
+                if (index.length !== 0) {
+                    searchBlur();
+                    index[0].classList.add("selected");
+                }
+            } else {
+                arrowDown(evt);
+            }
+            updateSoftKey();
+            break;
+        case "ArrowUp":
+            evt.preventDefault();
+            if (document.activeElement.tagName == 'INPUT') {
+                if (index.length !== 0) {
+                    searchBlur();
+                    index[index.length - 1].classList.add("selected");
+                    document.getElementById("content").scrollTop = document.getElementById("content").scrollHeight;
+                }
+            } else {
+                arrowUp(evt);
+            }
+            updateSoftKey();
+            break;
+        case "SoftLeft":
+            if (document.activeElement.tagName !== 'INPUT' && optionMenu.style.display !== "") {
+                for (let i = 0; i < index.length; i++) {
+                    if (index[i].classList.contains("selected")) {
+                        searchFocus();
+                        index[i].classList.remove("selected");
+                        document.getElementById("content").scrollTop = 0;
+                    }
+                }
+            }
+            updateSoftKey();
+            break;
+        case "SoftRight":
+            if (document.activeElement.tagName !== 'INPUT') {
+                if (optionMenu.style.display == "") {
+                    return;
+                } else if (countRight == 0) {
+                    optionMenu.style.display = "";
+                    tab = 0;
+                    optionList[tab].focus();
+                    countRight++;
+                }
+            }
+            updateSoftKey();
+            break;
         case "Enter":
             enterKey();
             break;
-        case "5":
-            easyRead();
-            break;
-        case "ArrowDown":
-            arrowDown(evt);
-            break;
-        case "ArrowUp":
-            arrowUp(evt);
-            break;
-        case "SoftLeft":
-            SoftLeft();
-            break;
-        case "SoftRight":
-            SoftRight();
-            break;
         case "Backspace":
             Backspace(evt);
+            updateSoftKey();
             break;
     }
 }
 
-var scroll = 0;
-var op = 1
-maxOp = 4
 var i;
+var tab = 0;
 
-function arrowDown(event) {
-    event.preventDefault();
-    const searchBox = document.getElementById("searchBox");
-    const list = document.getElementById("list");
-    const div = list.getElementsByTagName("div");
-    const nav = document.getElementById("nav");
-
-    if (document.getElementById("options").style.display == "") {
-        if (op == maxOp) {
-            document.getElementById("op" + op).classList.remove("active");
-            op = 1
-            document.getElementById("op" + op).classList.add("active")
-        } else if (document.getElementById("op" + op).classList.contains("active")) {
-            document.getElementById("op" + op).classList.remove("active")
-            document.getElementById("op" + (
-                op + 1
-            )).classList.add("active")
-            op++;
-        }
-    } else if (searching) {
-        if (searchBox.matches(":focus")) {
-            if (!index.length == 0) {
-                nav.classList.remove("active");
-                searchBox.blur();
-
-                index[0].classList.add("active")
-
-                document.getElementById("softkey-center").innerHTML = 'OPEN';
-                document.getElementById("softkey-right").innerHTML = 'Options';
-            }
-        } else if (index[index.length - 1].classList.contains("active")) {
-            index[index.length - 1].classList.remove("active")
-            nav.classList.add("active");
-            searchBox.focus();
-
-            window.scrollTo(0, 0);
-            document.getElementById("softkey-center").innerHTML = 'SEARCH';
-            document.getElementById("softkey-right").innerHTML = 'Clear';
-        } else {
-            for (i = 0; i < index.length; i++) {
-                if (index[i].classList.contains("active")) {
-                    index[i].classList.remove("active")
-                    i = i + 1;
-                    index[i].classList.add("active")
-
-                    if (i >= 3) {
-                        scroll = window.pageYOffset + 65;
-                        window.scrollTo(0, scroll);
-                    }
-                }
+function arrowDown(e) {
+    if (optionMenu.style.display == "") {
+        if (tab <= optionList.length - 1) {
+            tab++;
+            if (tab == optionList.length) {
+                tab = 0;
+                optionList[tab].focus();
+            } else {
+                optionList[tab].focus();
             }
         }
-    } else if (searchBox.matches(":focus")) {
-        if (!div.length == 0) {
-            nav.classList.remove("active");
-            searchBox.blur();
-
-            list.firstElementChild.classList.add("active")
-
-            document.getElementById("softkey-center").innerHTML = 'OPEN';
-            document.getElementById("softkey-right").innerHTML = 'Options';
-        }
-    } else if (div[div.length - 1].classList.contains("active")) { // when last div active
-        div[div.length - 1].classList.remove("active")
-        nav.classList.add("active");
-        searchBox.focus();
-
-        window.scrollTo(0, 0);
-        document.getElementById("softkey-center").innerHTML = 'SEARCH';
-        document.getElementById("softkey-right").innerHTML = '';
+    } else if (index[index.length - 1].classList.contains("selected")) {
+        index[index.length - 1].classList.remove("selected");
+        searchFocus();
+        document.getElementById("content").scrollTop = 0;
     } else {
-        for (i = 0; i < div.length; i++) {
-            if (div[i].classList.contains("active")) {
-                div[i].classList.remove("active")
+        for (i = 0; i < index.length; i++) {
+            if (index[i].classList.contains("selected")) {
+                index[i].classList.remove("selected")
                 i = i + 1;
-                div[i].classList.add("active")
+                index[i].classList.add("selected")
 
                 if (i >= 3) {
-                    scroll = window.pageYOffset + 65;
-                    window.scrollTo(0, scroll);
+                    document.getElementById("content").scrollTop += 62;
                 }
             }
         }
     }
 }
 
-function arrowUp(event) {
-    event.preventDefault();
-    const searchBox = document.getElementById("searchBox");
-    const list = document.getElementById("list");
-    const div = list.getElementsByTagName("div");
-    const nav = document.getElementById("nav");
-
-    if (document.getElementById("options").style.display == "") {
-        if (op == 1) {
-            document.getElementById("op" + op).classList.remove("active");
-            op = maxOp;
-            document.getElementById("op" + op).classList.add("active")
-        } else if (document.getElementById("op" + op).classList.contains("active")) {
-            document.getElementById("op" + op).classList.remove("active")
-            document.getElementById("op" + (
-                op - 1
-            )).classList.add("active")
-            op--;
-        }
-    } else if (searching) {
-        if (searchBox.matches(":focus")) {
-            if (!index.length == 0) {
-                nav.classList.remove("active");
-                searchBox.blur();
-                index[index.length - 1].classList.add("active")
-
-                window.scrollTo(0, document.body.scrollHeight);
-
-                document.getElementById("softkey-center").innerHTML = 'OPEN';
-                document.getElementById("softkey-right").innerHTML = 'Options';
-            }
-        } else if (index[0].classList.contains("active")) {
-            index[0].classList.remove("active");
-            nav.classList.add("active")
-            searchBox.focus();
-
-            document.getElementById("softkey-center").innerHTML = 'SEARCH';
-            document.getElementById("softkey-right").innerHTML = 'Clear';
-        } else {
-            for (i = 0; i < index.length; i++) {
-                if (index[i].classList.contains("active")) {
-                    index[i].classList.remove("active")
-                    i = i - 1;
-                    index[i].classList.add("active")
-
-                    if (i >= 3) {
-                        scroll = window.pageYOffset - 65;
-                        window.scrollTo(0, scroll);
-                    }
-                    if (i == 2) {
-                        window.scrollTo(0, 0);
-                    }
-                }
+function arrowUp(e) {
+    if (optionMenu.style.display == "") {
+        if (tab <= optionList.length - 1) {
+            tab--;
+            if (tab == -1) {
+                tab = optionList.length - 1;
+                optionList[tab].focus();
+            } else {
+                optionList[tab].focus();
             }
         }
-    } else if (searchBox.matches(":focus")) {
-        if (!div.length == 0) {
-            nav.classList.remove("active");
-            searchBox.blur();
-            div[div.length - 1].classList.add("active")
-
-            window.scrollTo(0, document.body.scrollHeight);
-
-            document.getElementById("softkey-center").innerHTML = 'OPEN';
-            document.getElementById("softkey-right").innerHTML = 'Options';
-        }
-    } else if (list.firstElementChild.classList.contains("active")) {
-        list.firstElementChild.classList.remove("active")
-        nav.classList.add("active");
-        searchBox.focus();
-
-        document.getElementById("softkey-center").innerHTML = 'SEARCH';
-        if (searching == true && searchBox.value != "") {
-            document.getElementById("softkey-right").innerHTML = 'Clear';
-        } else {
-            document.getElementById("softkey-right").innerHTML = '';
-        }
+    } else if (index[0].classList.contains("selected")) {
+        index[0].classList.remove("selected");
+        searchFocus();
     } else {
-        for (i = 0; i < div.length; i++) {
-            if (div[i].classList.contains("active")) {
-                div[i].classList.remove("active")
+        for (i = 0; i < index.length; i++) {
+            if (index[i].classList.contains("selected")) {
+                index[i].classList.remove("selected")
                 i = i - 1;
-                div[i].classList.add("active")
+                index[i].classList.add("selected")
 
                 if (i >= 3) {
-                    scroll = window.pageYOffset - 65;
-                    window.scrollTo(0, scroll);
+                    document.getElementById("content").scrollTop -= 62;
                 }
                 if (i == 2) {
-                    window.scrollTo(0, 0);
+                    document.getElementById("content").scrollTop = 0;
                 }
             }
         }
@@ -218,33 +203,37 @@ function arrowUp(event) {
 
 function enterKey() {
     var path = "";
-    if (document.getElementById("options").style.display == "none") {
-        for (let i = 0; i < list.children.length; i++) {
-            if (list.children[i].classList.contains("active")) {
-                path = list.children[i].getAttribute("path");
+    if (document.activeElement.tagName !== 'INPUT') {
+        if (optionMenu.style.display == "none") {
+            for (let i = 0; i < div.length; i++) {
+                if (div[i].classList.contains("selected")) {
+                    path = div[i].getAttribute("path");
+                }
+            }
+            if (path) {
+                var url = "pdfHandler.html?path=" + path;
+                document.location.href = url;
+            }
+        } else {
+            switch (tab) {
+                case 0:
+                    renameDoc();
+                    break;
+                case 1:
+                    deleteDoc();
+                    break;
+                case 2:
+                    getInfoDoc();
+                    break;
+                case 3:
+                    sorting();
+                    break;
             }
         }
-        if (path) {
-            var url = "pdfHandler.html?path=" + path;
-            document.location.href = url;
-        }
-    } else {
-        switch (op) {
-            case 1:
-                renameDoc();
-                break;
-            case 2:
-                deleteDoc();
-                break;
-            case 3:
-                getInfoDoc();
-                break;
-            case 4:
-                sorting();
-                break;
-        }
+
     }
 }
+
 /**
  * Rename here it means making new file
  * with previous file content
@@ -252,12 +241,14 @@ function enterKey() {
  */
 function renameDoc() {
     var path = "";
-    for (let i = 0; i < list.children.length; i++) {
-        if (list.children[i].classList.contains("active")) {
-            path = list.children[i].getAttribute("path");
+    for (let i = 0; i < div.length; i++) {
+        if (div[i].classList.contains("active")) {
+            path = div[i].getAttribute("path");
         }
     }
 
+    var name = path.slice(path.lastIndexOf("/") + 1);
+    var loc = path.split(name)[0]
     var newName = prompt("Enter new name");
     if (newName) {
         var sdcard = navigator.getDeviceStorage('sdcard');
@@ -270,7 +261,7 @@ function renameDoc() {
                 var typedarray = new Uint8Array(this.result);
                 var blob = new Blob([typedarray], { "type": "application/pdf" });
 
-                var reqChange = sdcard.addNamed(blob, (newName + ".pdf"));
+                var reqChange = sdcard.addNamed(blob, (loc + "" + newName + ".pdf"));
 
                 reqChange.onsuccess = function() {
                     var reqDel = sdcard.delete(path);
@@ -283,16 +274,20 @@ function renameDoc() {
                     alert("Cannot rename file")
                 }
             }
+            fileReader.onerror = function() {
+                console.log(this.error)
+            }
             fileReader.readAsArrayBuffer(this.result);
         }
     }
 }
+
 // Delete file
 function deleteDoc() {
     var path = "";
-    for (let i = 0; i < list.children.length; i++) {
-        if (list.children[i].classList.contains("active")) {
-            path = list.children[i].getAttribute("path");
+    for (let i = 0; i < div.length; i++) {
+        if (div[i].classList.contains("active")) {
+            path = div[i].getAttribute("path");
         }
     }
     var sdcard = navigator.getDeviceStorage('sdcard');
@@ -316,9 +311,9 @@ function deleteDoc() {
 function getInfoDoc() {
     var path = "";
 
-    for (let i = 0; i < list.children.length; i++) {
-        if (list.children[i].classList.contains("active")) {
-            path = list.children[i].getAttribute("path");
+    for (let i = 0; i < div.length; i++) {
+        if (div[i].classList.contains("active")) {
+            path = div[i].getAttribute("path");
         }
     }
     Backspace();
@@ -332,54 +327,12 @@ function sorting() {
     document.location.href = "sort.html";
 }
 
-function easyRead() {
-    var path = "";
-    if (document.getElementById("options").style.display == "none") {
-        for (let i = 0; i < list.children.length; i++) {
-            if (list.children[i].classList.contains("active")) {
-                path = list.children[i].getAttribute("path");
-            }
+function Backspace(e) {
+    if (document.activeElement.tagName !== 'INPUT') {
+        if (optionMenu.style.display == "") {
+            e.preventDefault();
+            optionMenu.style.display = "none";
+            countRight--;
         }
-        if (path) {
-            var url = "easyRead.html?path=" + path;
-            document.location.href = url;
-        }
-    }
-}
-
-var countRight = 0;
-
-function SoftRight() { // Open options menu with (Rename, delete and path)
-    if (!document.getElementById("searchBox").matches(":focus")) {
-        const options = document.getElementById("options");
-        if (options.style.display == "") {
-            return;
-        } else if (countRight == 0) {
-            document.getElementById("op1").classList.add("active")
-            options.style.display = "";
-            document.getElementById("softkey-left").innerHTML = '';
-            document.getElementById("softkey-center").innerHTML = 'SELECT';
-            document.getElementById("softkey-right").innerHTML = '';
-            countRight++;
-        }
-    }
-}
-
-function Backspace(event) {
-    try {
-        event.preventDefault();
-    } catch (error) {
-        console.log("No worries event is undefined")
-    }
-    if (countRight == 1) {
-        options.style.display = "none";
-        countRight--;
-        document.getElementById("op" + op).classList.remove("active")
-        op = 1;
-        document.getElementById("softkey-left").innerHTML = '';
-        document.getElementById("softkey-center").innerHTML = 'OPEN';
-        document.getElementById("softkey-right").innerHTML = 'Options';
-    } else {
-        window.close();
     }
 }

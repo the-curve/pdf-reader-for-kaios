@@ -4,44 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Reader</title>
+    <meta name="theme-color" content="#3e476b">
 
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script src="/js/index.js"></script>
 </head>
 
 <body>
-    <div id="full">
-        <div id="nav-wrapper">
-            <div id="nav" class="active">
-                <div id="header">PDF Reader</div>
-                <div id="main">
-                    <input id="searchBox" type="text" placeholder="Search">
-                </div>
+    <div id="app">
+        <div id="header">PDF Reader</div>
+
+        <div id="search_container" class="input-container">
+            <input type="text" id="searchBox" class="input-container__input" placeholder="Search" />
+        </div>
+
+        <div id="content">
+            <div class="list" id="pdf-list"></div>
+
+            <div style="display: none;" class="option-menu" id="options-menu">
+                <h2 class="option-title">Options</h2>
+                <ul class="options">
+                    <li tabindex="1">Rename</li>
+                    <li tabindex="1">Delete</li>
+                    <li tabindex="1">Get Info</li>
+                    <li tabindex="1">Sort By</li>
+                </ul>
             </div>
         </div>
-        <div id="lists">
-            <div id="list"></div>
-        </div>
-        <div id="options">
-            <div id="optionsHead">Options</div>
-            <div id="optionsList">
-                <div id="op1">Rename</div>
-                <div id="op2">Delete</div>
-                <div id="op3">Get Info</div>
-                <div id="op4">Sort By</div>
-            </div>
+
+        <div class="softkeys">
+            <div class="softkey-left" id="lsk"></div>
+            <div class="softkey-center" id="csk"></div>
+            <div class="softkey-right" id="rsk"></div>
         </div>
     </div>
-
-    <div id="softkeys">
-        <div id="softkey-left"></div>
-        <div id="softkey-center"></div>
-        <div id="softkey-right"></div>
-    </div>
-
-    <script src="/js/navigation.js"></script>
-    <script src="/js/search.js"></script>
+    <script src="js/navigation.js"></script>
 </body>
 
 </html>
