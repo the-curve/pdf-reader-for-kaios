@@ -1,9 +1,3 @@
-window.addEventListener("load", function () {
-    document.getElementById("softkey-left").innerHTML = '';
-    document.getElementById("softkey-center").innerHTML = 'SEARCH';
-    document.getElementById("softkey-right").innerHTML = '';
-});
-
 /*
  * Below some code is only to get method of sorting
  */
@@ -33,28 +27,28 @@ if (window.matchMedia("(orientation: portrait)").matches) {
 var count = 1;
 var filesArray = [];
 
-console.log("Method: "+ method);
+console.log("Method: " + method);
 searchFiles(method);
 
 function searchFiles(sortby) {
     var sdcards = navigator.getDeviceStorages("sdcard");
     var storageAmount = sdcards.length;
-    console.log("Storages: " + storageAmount);
 
     for (let i = 0; i < storageAmount; i++) {
         var fileCursor = sdcards[i].enumerate();
 
-        fileCursor.onsuccess = function () {
+        fileCursor.onsuccess = function() {
             if (fileCursor.result && fileCursor.result.name !== null) {
                 let files = fileCursor.result;
 
                 if (files.type == "application/pdf") {
                     filesArray.push(files); // push files into array
-                }fileCursor.continue()
+                }
+                fileCursor.continue()
             }
             if (fileCursor.readyState != "pending") {
                 if (filesArray.length == 0) {
-                    document.getElementById('list').innerHTML = "<br> &emsp;&emsp;&emsp; No PDF files found!";
+                    list.innerHTML = "<p style='text-align: center'>No PDF files found!</p>";
                 } else {
                     sortIt(sortby)
                 }
@@ -69,17 +63,17 @@ function getCount(parent, countFor) {
     return noOfChildren
 }
 
-/**
- * <3 Kisses to stackOverflow!
- */
 function sortIt(sortby) {
-    for (var i = 0; i < filesArray.length; i++) { // Sorting by date...
+    for (var i = 0; i < filesArray.length; i++) {
+        // Sorting by date...
         if (sortby == "date") {
-            filesArray.sort(function (a, b) {
+            filesArray.sort(function(a, b) {
                 return new Date(b.lastModified) - new Date(a.lastModified);
             });
-        } else if (sortby == "name" || typeof method == "undefined") { // Sorting by name...
-            filesArray.sort(function (a, b) { // toLowerCase is important
+        } else if (sortby == "name" || typeof method == "undefined") {
+            // Sorting by name...
+            filesArray.sort(function(a, b) {
+                // toLowerCase is important
                 var aname = a.name.slice(a.name.lastIndexOf("/")).toLowerCase();
                 var bname = b.name.slice(b.name.lastIndexOf("/")).toLowerCase();
 
@@ -91,16 +85,15 @@ function sortIt(sortby) {
                 }
                 return 0;
             })
-        } else if (sortby = "size") { // Sorting by size...
-            filesArray.sort(function (a, b) {
+        } else if (sortby = "size") {
+            // Sorting by size...
+            filesArray.sort(function(a, b) {
                 a = a.size;
                 b = b.size;
 
                 return a - b;
             });
         }
-
-        console.log(filesArray[i].name)
 
         // make div element then append with lists with attributes
         var div = document.createElement("div");
@@ -111,8 +104,9 @@ function sortIt(sortby) {
         // slice it to get only file name
         var l = filesArray[i].name.lastIndexOf("/");
         var temp = filesArray[i].name.slice(l + 1);
-        div.innerHTML = temp;
-        div.className = "fileButton";
+        var loc = filesArray[i].name.split(temp)[0]
+        div.innerHTML = "<p id='name'>" + temp + "</p>" + "<p id='path'>" + loc + "</p>";
+        div.className = "list__item";
 
         // append div with a beautiful line
         var line = document.createElement("hr");
