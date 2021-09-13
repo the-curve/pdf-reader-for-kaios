@@ -13,7 +13,7 @@
 <body>
     <div id="body">
 
-        <div id="set2">
+        <div id="loader-container">
             <div id="loader">
                 <div></div>
                 <div></div>
@@ -22,13 +22,13 @@
             </div>
         </div>
 
-        <div id="password-container">
-            <p>This PDF is protected<br/>Please enter Password</p>
+        <div id="password-container" style="display: none;">
+            <p>Password Exception <br/>Please enter Password</p>
             <input type="password" id="pdf-password" autocomplete="off" placeholder="Password">
             <div id="password-message"></div>
         </div>
 
-        <div id="canfix">
+        <div id="canfix" style="display: none;">
             <canvas id="canvas"></canvas>
         </div>
 
@@ -38,7 +38,7 @@
 
     </div>
 
-    <div id="softkeys">
+    <div id="softkeys" style="display: none;">
         <div id="softkey-left"></div>
         <div id="softkey-center"></div>
         <div id="softkey-right"></div>
