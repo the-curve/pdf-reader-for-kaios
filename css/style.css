@@ -3,8 +3,8 @@
     --app-background: #ffffff;
     --header-background: #3e476b;
     --header-color: #ffffff;
-    --text-color: #222222;
-    --subtext-color: #5a5a5a;
+    --text-color: #111;
+    --subtext-color: #222;
 }
 
 .selected {
@@ -29,6 +29,7 @@ body {
 }
 
 #app {
+    overflow: hidden;
     background: var(--app-background);
     width: 100vw;
     height: 100%;
@@ -115,7 +116,7 @@ body {
     font-size: 17px;
     font-weight: 400;
     margin: 0;
-    color: #323232;
+    color: #111;
     text-align: center;
     background-color: #d6d6d6;
     height: 28px;
@@ -160,7 +161,7 @@ body {
     margin: 0;
     padding-bottom: 25px;
     font-weight: 300;
-    font-size: 14px;
+    font-size: 15px;
     color: #000;
     letter-spacing: .01em;
 }
