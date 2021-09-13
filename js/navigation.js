@@ -134,7 +134,6 @@ document.onkeydown = function(evt) {
             break;
         case "Backspace":
             Backspace(evt);
-            updateSoftKey();
             break;
     }
 }
@@ -335,8 +334,7 @@ function getInfoDoc() {
 }
 
 function sorting() {
-    //Backspace();
-
+    Backspace();
     document.location.href = "sort.html";
 }
 
@@ -352,4 +350,5 @@ function Backspace(e) {
             countRight--;
         }
     }
+    updateSoftKey();
 }
