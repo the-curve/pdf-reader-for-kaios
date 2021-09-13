@@ -23,7 +23,7 @@ var request = sdcard.getEditable(file_path);
 request.onsuccess = function() {
     var file = this.result;
     const display = document.getElementById("displayInfo");
-    
+
     //slicing to get only file name
     var l = file.name.lastIndexOf("/");
     var name = file.name.slice(l + 1);
@@ -67,6 +67,14 @@ document.onkeydown = function(evt) {
         case "Backspace":
             evt.preventDefault();
             history.back();
+            break;
+        case "ArrowUp":
+            evt.preventDefault();
+            document.getElementById("displayInfo").scrollTop -= 30;
+            break;
+        case "ArrowDown":
+            evt.preventDefault();
+            document.getElementById("displayInfo").scrollTop += 30;
             break;
     }
 }

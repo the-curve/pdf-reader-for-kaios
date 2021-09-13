@@ -105,7 +105,7 @@ hr {
 /*Options*/
 
 .option-menu {
-    height: calc(100vh - 81px);
+    height: calc(100vh - 107px);
     width: 100%;
     position: absolute;
     overflow: hidden;
@@ -143,6 +143,31 @@ hr {
     outline: 0;
     color: #fff;
     background-color: #415780;
+}
+
+#displayInfo {
+    overflow-x: hidden;
+    width: 100vw;
+    height: calc(100% - 27px);
+}
+
+#displayInfo div {
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--text-color);
+}
+
+#displayInfo p {
+    margin: 0;
+    padding-bottom: 25px;
+    font-weight: 300;
+    font-size: 14px;
+    color: #000;
+    letter-spacing: .01em;
+}
+
+.infoBtn {
+    padding: 5px;
 }
 
 

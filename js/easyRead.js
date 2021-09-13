@@ -2,8 +2,12 @@
  * Note: PDFs are meant to display content as it was
  * Easy read works well if pdf is simple and not have too much styling(like: color, underline, boldness, etc...)
  * If PDF have any images it will not display (only texts)
- * This maybe usefull for small screens(In testing...)
+ * This maybe usefull for small screens
  */
+
+window.addEventListener("load", function() {
+    document.documentElement.requestFullscreen();
+})
 
 var lock = window.navigator.requestWakeLock('screen');
 var screenMode;
@@ -349,6 +353,7 @@ document.addEventListener('keydown', (event) => {
             }
         }
 
+        document.exitFullscreen();
         history.back();
     }
     if (keyName == "5") {

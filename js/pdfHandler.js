@@ -1,3 +1,7 @@
+window.addEventListener("load", function() {
+    document.documentElement.requestFullscreen();
+})
+
 var lock = window.navigator.requestWakeLock('screen');
 var screenMode;
 var adjustment;
@@ -281,6 +285,7 @@ document.addEventListener('keydown', (event) => {
             }
         }
 
+        document.exitFullscreen();
         history.back();
     }
     if (keyName == "5") {
@@ -297,7 +302,12 @@ document.addEventListener('keydown', (event) => {
     }
     if (keyName == "#") {
         if (passwordContainer.style.display == "none") {
-            var page = parseInt(prompt("Enter page number"));
+            document.getElementById("getPage").style.display = "";
+            document.getElementById("pageNo").focus();
+            softkeys.style.display = "";
+            document.getElementById("softkey-center").innerHTML = 'OK';
+            document.documentElement.requestFullscreen();
+            //var page = parseInt(prompt("Enter page number"));
 
             // If page is not null/empty/NaN
             if (page) {
