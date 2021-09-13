@@ -129,6 +129,9 @@ document.onkeydown = function(evt) {
         case "Enter":
             enterKey();
             break;
+        case "5":
+            easyRead();
+            break;
         case "Backspace":
             Backspace(evt);
             updateSoftKey();
@@ -201,6 +204,19 @@ function arrowUp(e) {
     }
 }
 
+function easyRead() {
+    var path = "";
+    for (let i = 0; i < div.length; i++) {
+        if (div[i].classList.contains("selected")) {
+            path = div[i].getAttribute("path");
+        }
+    }
+    if (path) {
+        var url = "easyRead.html?path=" + path;
+        document.location.href = url;
+    }
+}
+
 function enterKey() {
     var path = "";
     if (document.activeElement.tagName !== 'INPUT') {
@@ -242,7 +258,7 @@ function enterKey() {
 function renameDoc() {
     var path = "";
     for (let i = 0; i < div.length; i++) {
-        if (div[i].classList.contains("active")) {
+        if (div[i].classList.contains("selected")) {
             path = div[i].getAttribute("path");
         }
     }
@@ -271,11 +287,8 @@ function renameDoc() {
                 }
                 reqChange.onerror = function() {
                     console.log(this.error);
-                    alert("Cannot rename file")
+                    alert("Cannot rename file: \n" + this.error.name)
                 }
-            }
-            fileReader.onerror = function() {
-                console.log(this.error)
             }
             fileReader.readAsArrayBuffer(this.result);
         }
@@ -286,7 +299,7 @@ function renameDoc() {
 function deleteDoc() {
     var path = "";
     for (let i = 0; i < div.length; i++) {
-        if (div[i].classList.contains("active")) {
+        if (div[i].classList.contains("selected")) {
             path = div[i].getAttribute("path");
         }
     }
@@ -312,7 +325,7 @@ function getInfoDoc() {
     var path = "";
 
     for (let i = 0; i < div.length; i++) {
-        if (div[i].classList.contains("active")) {
+        if (div[i].classList.contains("selected")) {
             path = div[i].getAttribute("path");
         }
     }
@@ -322,7 +335,7 @@ function getInfoDoc() {
 }
 
 function sorting() {
-    Backspace();
+    //Backspace();
 
     document.location.href = "sort.html";
 }
@@ -330,7 +343,11 @@ function sorting() {
 function Backspace(e) {
     if (document.activeElement.tagName !== 'INPUT') {
         if (optionMenu.style.display == "") {
-            e.preventDefault();
+            try {
+                e.preventDefault();
+            } catch (error) {
+                console.log("Nothing happened!");
+            }
             optionMenu.style.display = "none";
             countRight--;
         }
