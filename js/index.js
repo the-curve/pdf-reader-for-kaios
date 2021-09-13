@@ -18,10 +18,8 @@ try {
  */
 
 var screenMode;
-if (window.matchMedia("(orientation: portrait)").matches) {
-    screenMode = "portrait";
-} else {
-    screenMode = "landscape";
+if (window.matchMedia("(orientation: landscape)").matches) {
+    screen.orientation.lock('portrait');
 }
 
 var count = 1;

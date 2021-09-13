@@ -78,8 +78,7 @@ body {
     background-position: 3% 60%;
 }
 
-hr {
-    margin: 0.67em 0;
+.list>hr {
     margin: 0;
     margin-left: 45px;
     height: 1px;

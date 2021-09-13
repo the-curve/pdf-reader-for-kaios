@@ -1,7 +1,3 @@
-window.addEventListener("load", function() {
-    document.documentElement.requestFullscreen();
-})
-
 var lock = window.navigator.requestWakeLock('screen');
 var screenMode;
 var adjustment;
@@ -62,14 +58,14 @@ function getPDF(password, filePath) {
 
                 passwordContainer.style.display = "none";
                 passwordBox.blur();
-                document.getElementById("set2").style.display = "none";
-                document.getElementById("loader").style.display = "none";
+                //document.getElementById("set2").style.display = "none";
+                //document.getElementById("loader").style.display = "none";
                 softkeys.style.display = 'none';
 
                 totalPages = pdfDoc.numPages;
                 console.log("Total pages: " + totalPages);
 
-                renderPageForFirstTime(pageNum);
+                //renderPageForFirstTime(pageNum);
             }).catch(function(error) {
                 console.log(error.name);
                 document.getElementById("set2").style.display = "none";
