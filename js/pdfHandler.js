@@ -1,7 +1,6 @@
 var lock = window.navigator.requestWakeLock('screen');
 var screenMode;
 var adjustment;
-var screenOffOrientation = null;
 
 if (window.matchMedia("(orientation: portrait)").matches) {
     screenMode = "portrait";
@@ -14,10 +13,9 @@ if (window.matchMedia("(orientation: portrait)").matches) {
 const passwordContainer = document.getElementById("password-container");
 const passwordBox = document.getElementById("pdf-password");
 const passwordMessage = document.getElementById("password-message");
-const softkeys = document.getElementById("softkeys")
-
-passwordContainer.style.display = "none";
-softkeys.style.display = "none";
+const softkeys = document.getElementById("softkeys");
+const canfix = document.getElementById("canfix");
+const loader = document.getElementById("loader-container");
 
 /*
  * Below some code is only to get a perfect file path
@@ -58,9 +56,9 @@ function getPDF(password, filePath) {
 
                 passwordContainer.style.display = "none";
                 passwordBox.blur();
-                document.getElementById("set2").style.display = "none";
-                document.getElementById("loader").style.display = "none";
-                softkeys.style.display = 'none';
+                softkeys.style.display = "none";
+                loader.style.display = "none";
+                canfix.style.display = "";
 
                 totalPages = pdfDoc.numPages;
                 console.log("Total pages: " + totalPages);
@@ -68,10 +66,9 @@ function getPDF(password, filePath) {
                 renderPageForFirstTime(pageNum);
             }).catch(function(error) {
                 console.log(error.name);
-                document.getElementById("set2").style.display = "none";
-                document.getElementById("loader").style.display = "none";
+                loader.style.display = "none";
 
-                // If file has password
+                // If file has password on it
                 if (error.name == 'PasswordException') {
                     passwordContainer.style.display = "";
                     passwordBox.value = "";
@@ -131,7 +128,8 @@ function renderPageForFirstTime(num) {
         // Wait for rendering to finish
         renderTask.promise.then(function() {
             pageRendering = false;
-            if (pageNumPending !== null) { // New page rendering is pending
+            if (pageNumPending !== null) {
+                // New page rendering is pending
                 renderPage(pageNumPending);
                 pageNumPending = null;
             }
@@ -169,7 +167,8 @@ function renderPage(num) {
         // Wait for rendering to finish
         renderTask.promise.then(function() {
             pageRendering = false;
-            if (pageNumPending !== null) { // New page rendering is pending
+            if (pageNumPending !== null) {
+                // New page rendering is pending
                 renderPage(pageNumPending);
                 pageNumPending = null;
             }
@@ -207,8 +206,7 @@ function onNextPage() {
     renderPage(pageNum);
 }
 /**
- * 
- * This changes a page to a custom number
+ * Changes a page to a given number
  */
 function changePage(num) {
     if (num <= pdfDoc.numPages) {
@@ -221,32 +219,16 @@ function changePage(num) {
 
 document.addEventListener('keydown', (event) => {
     const keyName = event.key;
-    if (screenMode == "portrait") {
-        if (keyName == "2") {
-            onPrevPage();
-        }
+    if (keyName == "2") {
+        onPrevPage();
     }
-    if (screenMode == "landscape") {
-        if (keyName == "e") {
-            onPrevPage();
-        }
-    }
-
 }, false);
 
 document.addEventListener('keydown', (event) => {
     const keyName = event.key;
-    if (screenMode == "portrait") {
-        if (keyName == "8") {
-            onNextPage();
-        }
+    if (keyName == "8") {
+        onNextPage();
     }
-    if (screenMode == "landscape") {
-        if (keyName == "x") {
-            onNextPage();
-        }
-    }
-
 }, false);
 
 var count = 0; // this memorises the no of times * pressed
@@ -270,15 +252,8 @@ document.addEventListener('keydown', (event) => {
     if (keyName == "Backspace") {
         event.preventDefault();
 
-        if (screenMode == "portrait") {
-            if (window.matchMedia("(orientation: landscape)").matches) {
-                screen.orientation.lock('portrait');
-            }
-        }
-        if (screenMode == "landscape") {
-            if (window.matchMedia("(orientation: portrait)").matches) {
-                screen.orientation.lock('landscape');
-            }
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            screen.orientation.lock('portrait');
         }
 
         history.back();
@@ -308,12 +283,10 @@ document.addEventListener('keydown', (event) => {
     if (keyName == "*") {
         console.log(count)
         if (count == 0) {
-            canvas.style.filter = "invert(100%) sepia(20%) brightness(0.7)"
-            console.log("invert")
+            canvas.classList.toggle("dark"); //Slow :(
             count++;
         } else {
-            canvas.style = ""
-            console.log("reinvert")
+            canvas.classList.remove("dark");
             count--;
         }
     }

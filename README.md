@@ -1,5 +1,5 @@
 # pdf-reader-for-kaios
-A PDF Reader or manager made for small screens...
+A PDF Reader or Manager made for small screens
 
 ## Navigation
 <p>
@@ -20,16 +20,7 @@ A PDF Reader or manager made for small screens...
 ![image](/assets/pdfDark.png)
   
 ## Something about Easy Read
-You can also Press 5 instead of Enter key while selecting PDF file to open PDF as Easy Read (Experimental)
-### Screenshot of it
-![image](/assets/easy.png)
-![image](/assets/easyDark.png)
-### But note that 
-* PDFs are meant to display content as it was
-* Easy read works well if pdf is simple and not have too much styling(like: color, underline, boldness, etc...)
-* If PDF have any images it will not display (if cover page has image goto next page)
-* This feature canbe useful for small screens
+You can also Press 5 instead of Enter key while selecting PDF file to open PDF as Easy Read
 
-<h3 align="center">      
-   No OmniSD install using WebIDE!!!
-</h3>
+### But note that 
+##### PDFs are meant for displaying content as it was, Easy read works if pdf is simple and not have too much styling (like: color, underline, boldness, etc.) otherwise garbled text
