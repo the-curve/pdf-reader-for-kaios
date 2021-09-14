@@ -1,5 +1,5 @@
 # pdf-reader-for-kaios
-A PDF Reader or manager made for small screens...
+A PDF Reader or Manager made for small screens
 
 ## Navigation
 <p>
