@@ -26,6 +26,13 @@
     "default_locale": "en",
 
     "activities": {
-
+        "open": {
+            "filters": {
+                "type": ["application/pdf"]
+            },
+            "disposition": "inline",
+            "returnValue": true,
+            "href": "/activityHandler.html"
+        }
     }
 }
