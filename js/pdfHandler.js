@@ -128,7 +128,7 @@ function renderPageForFirstTime(num) {
         // Wait for rendering to finish
         renderTask.promise.then(function() {
             pageRendering = false;
-            if (pageNumPending !== null) { 
+            if (pageNumPending !== null) {
                 // New page rendering is pending
                 renderPage(pageNumPending);
                 pageNumPending = null;
@@ -167,7 +167,7 @@ function renderPage(num) {
         // Wait for rendering to finish
         renderTask.promise.then(function() {
             pageRendering = false;
-            if (pageNumPending !== null) { 
+            if (pageNumPending !== null) {
                 // New page rendering is pending
                 renderPage(pageNumPending);
                 pageNumPending = null;
@@ -255,7 +255,7 @@ document.addEventListener('keydown', (event) => {
         if (window.matchMedia("(orientation: landscape)").matches) {
             screen.orientation.lock('portrait');
         }
-    
+
         history.back();
     }
     if (keyName == "5") {
@@ -272,12 +272,7 @@ document.addEventListener('keydown', (event) => {
     }
     if (keyName == "#") {
         if (passwordContainer.style.display == "none") {
-            document.getElementById("getPage").style.display = "";
-            document.getElementById("pageNo").focus();
-            softkeys.style.display = "";
-            document.getElementById("softkey-center").innerHTML = 'OK';
-            document.documentElement.requestFullscreen();
-            //var page = parseInt(prompt("Enter page number"));
+            var page = parseInt(prompt("Enter page number"));
 
             // If page is not null/empty/NaN
             if (page) {
@@ -289,11 +284,9 @@ document.addEventListener('keydown', (event) => {
         console.log(count)
         if (count == 0) {
             canvas.classList.toggle("dark"); //Slow :(
-            console.log("invert")
             count++;
         } else {
             canvas.classList.remove("dark");
-            console.log("reinvert")
             count--;
         }
     }

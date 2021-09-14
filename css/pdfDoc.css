@@ -5,31 +5,13 @@ body {
     background-color: #dadada;
 }
 
-.dark{
+.dark {
     filter: invert(100%) sepia(20%) brightness(0.7)
 }
 
-#getPage {
-    padding: 8px;
-    position: fixed;
-    bottom: 50%;
-    background-color: #415780;
-}
-
-#pageNo {
-    padding: 0 0.3rem 0 0.3rem;
-    width: 100%;
-    font-size: 20px;
-    font-weight: 400;
-    height: 38px;
-    outline: none;
-    box-sizing: border-box;
-    display: block;
-}
-
 #easy-read {
-    text-align: center;
-    letter-spacing: 0.01em;
+    font-family: Open Sans;
+    padding-left: 5px;
 }
 
 #canvas {
