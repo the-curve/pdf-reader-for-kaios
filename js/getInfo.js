@@ -33,7 +33,7 @@ request.onsuccess = function() {
     div.innerHTML = "<div>Name </div> <p>" + name + "</p>" +
         "<div>Path </div> <p>" + file.name + "</p>" +
         "<div>Size </div> <p>" + getSize(file.size) + "</p>" +
-        "<div>Last Modified Date </div> <p>" + getDate(file.lastModifiedDate) + "</p>";
+        "<div>Last Modified Date </div> <p>" + getDate(file.lastModifiedDate) + " <br> " + getTime(file.lastModifiedDate) + "</p>";
 
     div.className = "infoBtn";
     display.appendChild(div);
@@ -60,6 +60,18 @@ function getDate(date) {
     var year = date.getUTCFullYear();
 
     return (day + " " + monthNames[month] + " " + year);
+}
+
+function getTime(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+    return strTime;
 }
 
 document.onkeydown = function(evt) {
