@@ -9,7 +9,8 @@ A PDF Reader or Manager made for small screens
 8 - Next page <br>
 5 - Rotate screen <br>
 * - Invert pdf colour (sometimes called dark theme) <br>
-# - Goto any page number
+# - Goto any page number <br>
+SoftLeft - Get outline tree
 </p>
 
 ## Screenshots
@@ -23,4 +24,4 @@ A PDF Reader or Manager made for small screens
 You can also Press 5 instead of Enter key while selecting PDF file to open PDF as Easy Read
 
 ### But note that 
-##### PDFs are meant for displaying content as it was, Easy read works if pdf is simple and not have too much styling (like: color, underline, boldness, etc.) otherwise garbled text
+PDFs are meant for displaying content as it was, Easy read works if pdf is simple and not have too much styling (like: color, underline, boldness, etc.) otherwise garbled text
