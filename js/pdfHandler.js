@@ -374,10 +374,12 @@ document.addEventListener('keydown', (event) => {
             var pswd = passwordBox.value;
             getPDF(pswd, file_path);
         }else if (tree.style.display == ""){
-            tree.style.display = "none";
-            LSKcount--;
-            var page = pairs[tab].pageNumber;
-            changePage(page)
+            if(pairs.length){
+                tree.style.display = "none";
+                LSKcount--;
+                var page = pairs[tab].pageNumber;
+                changePage(page)
+            }
         }
     }
 
