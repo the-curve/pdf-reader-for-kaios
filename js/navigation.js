@@ -51,25 +51,23 @@ searchFocus();
 
 // Search
 searchBox.addEventListener('input', (evt) => {
-    setTimeout(() => {
-        var input = evt.target.value;
-        var filter = input.toUpperCase();
-        var hr = document.getElementsByTagName("hr");
-        index = [];
+    var input = evt.target.value;
+    var filter = input.toUpperCase();
+    var hr = document.getElementsByTagName("hr");
+    index = [];
 
-        for (var i = 0; i < div.length; i++) {
-            var textVal = div[i].firstElementChild.textContent;
+    for (var i = 0; i < div.length; i++) {
+        var textVal = div[i].firstElementChild.textContent;
 
-            div[i].style.display = "none";
-            hr[i].style.display = "none"
+        div[i].style.display = "none";
+        hr[i].style.display = "none"
 
-            if (textVal.toUpperCase().indexOf(filter) > -1) {
-                div[i].style.display = "";
-                hr[i].style.display = ""
-                index.push(div[i]);
-            }
+        if (textVal.toUpperCase().indexOf(filter) > -1) {
+            div[i].style.display = "";
+            hr[i].style.display = ""
+            index.push(div[i]);
         }
-    }, 500)
+    }
 });
 
 // Navigation

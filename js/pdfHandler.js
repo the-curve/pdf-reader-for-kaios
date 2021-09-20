@@ -16,6 +16,8 @@ const passwordMessage = document.getElementById("password-message");
 const softkeys = document.getElementById("softkeys");
 const canfix = document.getElementById("canfix");
 const loader = document.getElementById("loader-container");
+const tree = document.getElementById("tree");
+const outlineList = document.getElementById("outlineList");
 
 /*
  * Below some code is only to get a perfect file path
@@ -38,6 +40,8 @@ console.log("File Path: " + file_path);
  */
 
 getPDF("", file_path);
+
+const pairs = [];
 
 function getPDF(password, filePath) {
     var sdcard = navigator.getDeviceStorage("sdcard");
@@ -62,6 +66,21 @@ function getPDF(password, filePath) {
 
                 totalPages = pdfDoc.numPages;
                 console.log("Total pages: " + totalPages);
+
+                pdfDoc.getOutline().then(function(outline) {
+                    if (outline) {
+                        for (let i = 0; i < outline.length; i++) {
+                            const dest = outline[i].dest;
+                            const ref = dest[0];
+
+                            // Get page id, its not page number
+                            pdfDoc.getPageIndex(ref).then(function(id) {
+                                // page number = index + 1 (id starts with 0)
+                                pairs.push({ title: outline[i].title, pageNumber: parseInt(id) + 1 });
+                            });
+                        }
+                    }
+                })
 
                 renderPageForFirstTime(pageNum);
             }).catch(function(error) {
@@ -184,6 +203,20 @@ function renderPage(num) {
     });
 }
 
+function addOutline() {
+    if (pairs.length) {
+        outlineList.innerHTML = "";
+        for (let j = 0; j < pairs.length; j++) {
+            var list = document.createElement("div");
+            list.innerHTML = "<p tabIndex = '1'>" + pairs[j].title + "  [" + pairs[j].pageNumber + "]";
+            list.className = "treeList";
+            outlineList.appendChild(list);
+        };
+    } else {
+        outlineList.innerHTML = "<p style='text-align:center'> No Outline found!"
+    }
+}
+
 /**
  * Displays previous page.
  */
@@ -232,8 +265,38 @@ document.addEventListener('keydown', (event) => {
 }, false);
 
 var count = 0; // this memorises the no of times * pressed
+var LSKcount = 0;
+var tab = 0;
 document.addEventListener('keydown', (event) => {
     const keyName = event.key;
+
+    if (tree.style.display == "") {
+        event.preventDefault();
+    }
+
+    if (keyName == "ArrowUp" && tree.style.display == "") {
+        if (tab < outlineList.children.length) {
+            tab--;
+            if (tab == -1) {
+                tab = outlineList.children.length-1;
+                outlineList.children[tab].children[0].focus()
+            } else {
+                outlineList.children[tab].children[0].focus()
+            }
+        }
+    }
+
+    if (keyName == "ArrowDown" && tree.style.display == "") {
+        if (tab < outlineList.children.length) {
+            tab++;
+            if (tab == outlineList.children.length) {
+                tab = 0;
+                outlineList.children[tab].children[0].focus()
+            } else {
+                outlineList.children[tab].children[0].focus()
+            }
+        }
+    }
 
     if (keyName == "1") {
         if (scale > initialScale) {
@@ -252,11 +315,15 @@ document.addEventListener('keydown', (event) => {
     if (keyName == "Backspace") {
         event.preventDefault();
 
-        if (window.matchMedia("(orientation: landscape)").matches) {
-            screen.orientation.lock('portrait');
+        if (tree.style.display == "") {
+            tree.style.display = "none";
+            LSKcount--;
+        } else {
+            if (window.matchMedia("(orientation: landscape)").matches) {
+                screen.orientation.lock('portrait');
+            }
+            history.back();
         }
-
-        history.back();
     }
     if (keyName == "5") {
         if (passwordContainer.style.display == "none") {
@@ -281,7 +348,6 @@ document.addEventListener('keydown', (event) => {
         }
     }
     if (keyName == "*") {
-        console.log(count)
         if (count == 0) {
             canvas.classList.toggle("dark"); //Slow :(
             count++;
@@ -290,10 +356,28 @@ document.addEventListener('keydown', (event) => {
             count--;
         }
     }
+
+    if (keyName == "SoftLeft") {
+        if (passwordContainer.style.display == "none" && loader.style.display == "none") {
+            if (LSKcount == 0) {
+                addOutline();
+                tree.style.display = "";
+                tab = 0;
+                outlineList.children[tab].children[0].focus()
+                LSKcount++;
+            }
+        }
+    }
+
     if (keyName == "Enter") {
         if (passwordContainer.style.display == "") {
             var pswd = passwordBox.value;
             getPDF(pswd, file_path);
+        }else if (tree.style.display == ""){
+            tree.style.display = "none";
+            LSKcount--;
+            var page = pairs[tab].pageNumber;
+            changePage(page)
         }
     }
 
